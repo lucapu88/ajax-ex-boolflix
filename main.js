@@ -9,28 +9,36 @@
 //devo far si che la parola digitata nell'input corrisponda ad un film presente nell'api_key
 //se il film è presente mi devono apparire le info
 $(document).ready(function(){
+  var template_html = $('#myTemplate').html();//recupero il codice html del template
+  var template_function = Handlebars.compile(template_html);//do in pasto a handlebars il codice html
   $('button').click(function(){ // creo una funzione che mi va a richiamare l'ajax al click sul pulsante
     var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
+
     if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
       $.ajax({
         url : 'https://api.themoviedb.org/3/search/movie',
         data : {
-          'api_key' : 'bdfca8e1c697f91b547202dd502a1119',
-          'query' : 'ritorno+al+futuro'
+          'api_key' : API_KEY,
+          'query' : filmCercato
         },
         method : 'get',
         success : function(data) {
-          var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati
-          for (var i = 0; i < filmResults.length; i++) {
-            if (filmCercato.includes(filmResults[i].title)) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
-              // var context = { //creo la variabile con il contenuto che andrà nel template.
-              //   titolo : filmResults[i].title,
-              //   titolo_originale : filmResults[i].original_title,
-              //   lingua : filmResults[i].original_language,
-              //   voto : filmResults[i].
-              // }
+          console.log(data);
+          var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
+          for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
+            var titolo = filmResults[i].title //creo una var per il titolo del film
+            if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
+              console.log('ok');
+            /*  var context = { //creo la variabile con il contenuto che andrà nel template.
+                titolo : filmResults[i].title,
+                titolo_originale : filmResults[i].original_title,
+                lingua : filmResults[i].original_language,
+                //voto : filmResults[i].
+              }
+              var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
+              $('body').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API */
             }
-            console.log('bravo');
+
           }
         },
         error : function() {
