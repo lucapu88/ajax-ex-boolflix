@@ -3,3 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  background-color: black;
+}
+.searchMovie {
+  padding: 10px;
+  margin: 20px;
+  width: 40%;
+}
+button {
+  padding: 10px;
+}
