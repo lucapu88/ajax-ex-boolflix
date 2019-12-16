@@ -10,10 +10,13 @@
 //se il film è presente mi devono apparire le info
 $(document).ready(function(){
   $('button').click(function(){ // al click sul pulsante cerca
+    $('.searchReaults').remove(); //ad ogni nuova ricerca, si cancella la precedente
     trovaFilm(); //applico la mia funzione creata
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
-    if (event.which == 13) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti)
+    var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
+    if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
+      $('.searchReaults').remove(); //ad ogni nuova ricerca, si cancella la precedente
       trovaFilm(); //applico la mia funzione creata
     }
   });
