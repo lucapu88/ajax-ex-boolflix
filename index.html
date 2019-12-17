@@ -3,23 +3,30 @@
   <head>
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYNetflix</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <header>
-      <input type="text" class="searchMovie" placeholder="Inserisci il titolo di un film che vuoi cercare">
-      <button type="button" name="button"> Cerca </button>
+      <h1>BOOLFLIX</h1>
+      <div class="searchBar">
+        <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un film che vuoi cercare">
+        <button type="button" name="button"><strong> Cerca </strong></button>
+      </div>
     </header>
+    <div class="searchReaults-container">
+    </div>
 
 
     <script id="myTemplate" type="text/x-handlebars-template">
       <div class="searchReaults">
-        <p>Titolo: {{titolo}} </p>
+        <p> {{{titolo}}} </p>
         <p>Titolo originale: {{titolo_originale}} </p>
         <p>Lingua: {{lingua}} </p>
-        <p>Voto: {{voto}}</p>
+        <p>Voto: {{{voto}}}{{{voto_restante}}}</p>
       </div>
     </script>
 
