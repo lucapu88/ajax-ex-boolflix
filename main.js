@@ -39,7 +39,6 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
-        console.log(data);
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
@@ -54,7 +53,7 @@ function trovaFilm() {
       }
     });
   }
-}
+};
 //funzione che mi prende gli oggetti da un array e mi stampa il template in html
 function creaTemplate(filmResults){
   var template_html = $('#myTemplate').html();//recupero il codice html del template
@@ -68,7 +67,7 @@ function creaTemplate(filmResults){
      var context = { //creo la variabile con il contenuto che andrà nel template.
         titolo : '<h2>' + titolo + '</h2>',
         titolo_originale : filmResults[i].original_title,
-        lingua : creaBandiera(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
+        lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
       }
@@ -77,24 +76,25 @@ function creaTemplate(filmResults){
       $('.searchMovie').val(''); //resetto l'input con una stringa vuota
     }
   }
-}
-function creaBandiera(flag) {
+};
+function creaBandiere(flag) {
   if (flag == 'en') {
-    return('<img src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="">');
+    return('<img src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="flag_UK">');
   }
   if (flag == 'it') {
-    return('<img src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="">');
+    return('<img src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="flag_italy">');
   }
   if (flag == 'pt') {
-    return('<img src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="">');
+    return('<img src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="flag_portugal">');
   }
   if (flag == 'de') {
-    return('<img src="http://aux2.iconspalace.com/uploads/424097756.png" alt="">');
+    return('<img src="http://aux2.iconspalace.com/uploads/424097756.png" alt="flag_germany">');
   }
   if (flag == 'fr') {
-    return('<img src="https://arad.co.il/assets/Flag-of-France.png" alt="">');
+    return('<img src="https://arad.co.il/assets/Flag-of-France.png" alt="flag_france">');
   }
   if (flag == 'es') {
-    return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="">');
+    return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
   }
+  return(flag)
 };
