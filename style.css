@@ -50,6 +50,9 @@ header h1 {
   justify-content: space-between;
   flex-direction: column;
 }
+.searchReaults img {
+  width: 25px;
+}
 .fa-star {
   color: #EEC83D;
 }

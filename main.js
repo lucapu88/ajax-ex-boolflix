@@ -28,8 +28,8 @@ function trovaFilm() {
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
     var urlMDb = 'https://api.themoviedb.org/3';
-    var apiMovie = '/search/movie';
-    var apiTV = '/search/tv';
+    var apiMovie = '/search/movie'; //API per la ricerca di un film
+    var apiTV = '/search/tv'; //API per la ricerca di una serie TV
     $.ajax({
       url : urlMDb + apiMovie,
       data : {
@@ -39,6 +39,7 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
+        console.log(data);
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
@@ -65,9 +66,9 @@ function creaTemplate(filmResults){
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
     if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
      var context = { //creo la variabile con il contenuto che andrà nel template.
-        titolo : '<h2>' + filmResults[i].title + '</h2>',
+        titolo : '<h2>' + titolo + '</h2>',
         titolo_originale : filmResults[i].original_title,
-        lingua : filmResults[i].original_language,
+        lingua : creaBandiera(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
       }
@@ -77,3 +78,23 @@ function creaTemplate(filmResults){
     }
   }
 }
+function creaBandiera(flag) {
+  if (flag == 'en') {
+    return('<img src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="">');
+  }
+  if (flag == 'it') {
+    return('<img src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="">');
+  }
+  if (flag == 'pt') {
+    return('<img src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="">');
+  }
+  if (flag == 'de') {
+    return('<img src="http://aux2.iconspalace.com/uploads/424097756.png" alt="">');
+  }
+  if (flag == 'fr') {
+    return('<img src="https://arad.co.il/assets/Flag-of-France.png" alt="">');
+  }
+  if (flag == 'es') {
+    return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="">');
+  }
+};
