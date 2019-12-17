@@ -13,13 +13,11 @@
 
 $(document).ready(function(){
   $('button').click(function(){ // al click sul pulsante cerca
-    $('.searchReaults').remove(); //ad ogni nuova ricerca, si cancella la precedente
     trovaFilm(); //applico la mia funzione creata
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
-      $('.searchReaults').remove(); //ad ogni nuova ricerca, si cancella la precedente
       trovaFilm(); //applico la mia funzione creata
     }
   });
@@ -27,12 +25,13 @@ $(document).ready(function(){
 
 //funzione che va a prendermi un film da un API tramite ciò che scrivo all'interno dell'input
 function trovaFilm() {
-  var template_html = $('#myTemplate').html();//recupero il codice html del template
-  var template_function = Handlebars.compile(template_html);//do in pasto a handlebars il codice html
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
+    var urlMDb = 'https://api.themoviedb.org/3';
+    var apiMovie = '/search/movie';
+    var apiTV = '/search/tv';
     $.ajax({
-      url : 'https://api.themoviedb.org/3/search/movie',
+      url : urlMDb + apiMovie,
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
@@ -40,26 +39,13 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
-        var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
-        for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
-          var titolo = filmResults[i].title //creo una var per il titolo del film
-          var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
-          if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
-           var context = { //creo la variabile con il contenuto che andrà nel template.
-              titolo : '<h2>' + filmResults[i].title + '</h2>',
-              titolo_originale : filmResults[i].original_title,
-              lingua : filmResults[i].original_language,
-              voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
-              voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
-            }
-            var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
-            $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
-            $('.searchMovie').val(''); //resetto l'input con una stringa vuota
-          }
-          // if (data.total_results == 0) { //se non c'è nessun film con il nome digitato
-          //   $('.searchReaults-container').append('Nessun risultato trovato');
-          //   console.log('oook');
-          // }
+        if (data.total_results > 0) { //se ci sono risultati nella ricerca
+          var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
+          creaTemplate(filmResults); //applico la mia funzione creata
+        } else { //se non ci sono risultati
+          $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
+          $('.searchReaults-container').append('Nessun risultato trovato'); //appendo un messaggio
+          $('.searchMovie').val(''); //resetto l'input con una stringa vuota
         }
       },
       error : function() {
@@ -68,7 +54,26 @@ function trovaFilm() {
     });
   }
 }
-
-function stampaRisultato(){
-
+//funzione che mi prende gli oggetti da un array e mi stampa il template in html
+function creaTemplate(filmResults){
+  var template_html = $('#myTemplate').html();//recupero il codice html del template
+  var template_function = Handlebars.compile(template_html);//do in pasto a handlebars il codice html
+  var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
+  $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
+  for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
+    var titolo = filmResults[i].title //creo una var per il titolo del film
+    var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
+    if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
+     var context = { //creo la variabile con il contenuto che andrà nel template.
+        titolo : '<h2>' + filmResults[i].title + '</h2>',
+        titolo_originale : filmResults[i].original_title,
+        lingua : filmResults[i].original_language,
+        voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
+        voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
+      }
+      var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
+      $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
+      $('.searchMovie').val(''); //resetto l'input con una stringa vuota
+    }
+  }
 }

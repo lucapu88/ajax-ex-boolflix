@@ -38,6 +38,7 @@ header h1 {
   justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 20px;
+  color: white;
 }
 .searchReaults {
   color: white;
