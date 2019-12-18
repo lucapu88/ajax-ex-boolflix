@@ -18,6 +18,9 @@
 // https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400 ) per poi aggiungere la parte finale dell’URL passata dall’API.
 
 $(document).ready(function(){
+  $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
+    $('.searchReaults-container').empty(); //svuoto il contenitore
+  });
   $('button').click(function(){ // al click sul pulsante cerca
     trovaFilm(); //applico la mia funzione creata
   });
@@ -52,7 +55,7 @@ function trovaFilm() {
           creaTemplate(filmResults); //applico la mia funzione creata
         } else { //se non ci sono risultati
           $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
-          $('.searchReaults-container').append('Nessun risultato trovato'); //appendo un messaggio
+          $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
           $('.searchMovie').val(''); //resetto l'input con una stringa vuota
         }
       },
@@ -80,7 +83,7 @@ function trovaFilm() {
           creaTemplate(filmResults); //applico la mia funzione creata
         } else { //se non ci sono risultati
           $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
-          $('.searchReaults-container').append('Nessun risultato trovato'); //appendo un messaggio
+          $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
           $('.searchMovie').val(''); //resetto l'input con una stringa vuota
         }
       },
@@ -113,8 +116,8 @@ function creaTemplate(filmResults){
         titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
-        voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
-
+        voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum), //aggiunge la stella per il risultato di 5 meno il numero del voto
+        descrizione : filmResults[i].overview
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API

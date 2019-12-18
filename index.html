@@ -11,7 +11,7 @@
   </head>
   <body>
     <header>
-      <h1>BOOLFLIX</h1>
+      <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
         <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un film che vuoi cercare">
         <button type="button" name="button"><strong> Cerca </strong></button>
@@ -25,9 +25,10 @@
       <div class="searchReaults">
         <p> {{{copertina}}} </p>
         <p> {{{titolo}}} </p>
-        <p>Titolo originale: {{titolo_originale}} </p>
-        <p>Lingua: {{{lingua}}} </p>
-        <p>Voto: {{{voto}}}{{{voto_restante}}}</p>
+        <p><strong>Titolo originale:</strong> {{titolo_originale}} </p>
+        <p><strong>Lingua:</strong> {{{lingua}}} </p>
+        <p><strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}</p>
+        <p><strong>Trama:</strong> {{descrizione}}</p>
       </div>
     </script>
 

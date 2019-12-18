@@ -12,7 +12,7 @@ header {
   padding: 20px;
   justify-content: space-between;
 }
-header h1 {
+.home {
   color: red;
 }
 .searchBar {
@@ -33,7 +33,7 @@ header h1 {
   color: white;
   border: none;
 }
-h1, button:hover {
+.home, button:hover {
   cursor: pointer;
 }
 .searchReaults-container {
@@ -50,7 +50,7 @@ h1, button:hover {
   border: 1px solid white;
   width: 400px;
   display: flex;
-  justify-content: space-between;
+  text-align: center;
   flex-direction: column;
 }
 .language {
