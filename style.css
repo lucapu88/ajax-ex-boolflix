@@ -53,6 +53,12 @@ header {
   text-align: center;
   flex-direction: column;
 }
+.info, .image {
+  display: none;
+}
+.active {
+  display: block;
+}
 .language {
   width: 25px;
 }

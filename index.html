@@ -20,15 +20,14 @@
     <div class="searchReaults-container">
     </div>
 
-
     <script id="myTemplate" type="text/x-handlebars-template">
       <div class="searchReaults">
-        <p> {{{copertina}}} </p>
-        <p> {{{titolo}}} </p>
-        <p><strong>Titolo originale:</strong> {{titolo_originale}} </p>
-        <p><strong>Lingua:</strong> {{{lingua}}} </p>
-        <p><strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}</p>
-        <p><strong>Trama:</strong> {{descrizione}}</p>
+        <div class="image active"> <img src="{{copertina}}"alt="locandina non disponibile"> </div>
+        <div class="info"><h2>{{{titolo}}}</h2></div>
+        <div class="info"><strong>Titolo originale:</strong> {{titolo_originale}} </div>
+        <div class="info"><strong>Lingua:</strong><img class="language" src="{{{lingua}}}" alt="flag"> </div>
+        <div class="info"><strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}</div>
+        <div class="info"><strong>Trama:</strong> {{descrizione}}</div>
       </div>
     </script>
 

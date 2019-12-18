@@ -16,6 +16,11 @@
 // https://image.tmdb.org/t/p/ per poi aggiungere la dimensione che vogliamo generare
 // (troviamo tutte le dimensioni possibili a questo link:
 // https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400 ) per poi aggiungere la parte finale dell’URL passata dall’API.
+// Milestone 4:
+// Trasformiamo quello che abbiamo fatto fino ad ora in una vera e propria webapp,creando un layout completo simil-Netflix:
+// ● Un header che contiene logo e search bar
+// ● Dopo aver ricercato qualcosa nella searchbar, i risultati appaiono sotto forma di “card” in cui lo sfondo è rappresentato dall’immagine di copertina ( consigliola poster_path con w342 )
+// ● Andando con il mouse sopra una card (on hover), appaiono le informazioni aggiuntive già prese nei punti precedenti più la overview
 
 $(document).ready(function(){
   $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
@@ -29,6 +34,14 @@ $(document).ready(function(){
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
       trovaFilm(); //applico la mia funzione creata
     }
+  });
+  $(document).on('mouseenter', '.searchReaults', function(){
+    $(this).children('.image').removeClass('active');
+    $(this).children('.info').addClass('active');
+  });
+  $(document).on('mouseleave', '.searchReaults', function(){
+    $(this).children('.info').removeClass('active');
+    $(this).children('.image').addClass('active');
   });
 });
 
@@ -111,8 +124,8 @@ function creaTemplate(filmResults){
     }
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
      var context = { //creo la variabile con il contenuto che andrà nel template.
-        copertina: '<img src="https://image.tmdb.org/t/p/w185' + filmResults[i].poster_path + '"alt="img di copertina">',
-        titolo : '<h2>' + titolo + '</h2>',
+        copertina: 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path,
+        titolo : titolo,
         titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
@@ -127,25 +140,25 @@ function creaTemplate(filmResults){
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi ritorna al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
-    return('<img class="language" src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="flag_UK">');
+    return('https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png');
   }
   if (flag == 'it') {
-    return('<img class="language" src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="flag_italy">');
+    return('http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png');
   }
   if (flag == 'pt') {
-    return('<img class="language" src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="flag_portugal">');
+    return('https://arad.co.il/assets/Flag-of-Portugal.png');
   }
   if (flag == 'de') {
-    return('<img class="language" src="http://aux2.iconspalace.com/uploads/424097756.png" alt="flag_germany">');
+    return('http://aux2.iconspalace.com/uploads/424097756.png');
   }
   if (flag == 'fr') {
-    return('<img class="language" src="https://arad.co.il/assets/Flag-of-France.png" alt="flag_france">');
+    return('https://arad.co.il/assets/Flag-of-France.png');
   }
   if (flag == 'es') {
-    return('<img class="language" src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
+    return('https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png');
   }
   if (flag == 'ja') {
-    return('<img class="language" src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png">');
+    return('https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png');
   }
   return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
 };
