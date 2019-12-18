@@ -10,6 +10,12 @@
 // Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezze piene (o mezze vuote :P)
 // Trasformiamo poi la stringa statica della lingua in una vera e propria bandiera della nazione corrispondente, gestendo il caso in cui non abbiamo la bandiera della nazione ritornata dall’API (le flag non ci sono in FontAwesome).
 // Allarghiamo poi la ricerca anche alle serie tv. Con la stessa azione di ricerca dovremo prendere sia i film che corrispondono alla query, sia le serie tv, stando attenti ad avere alla fine dei valori simili (le serie e i film hanno campi nel JSON di risposta diversi, simili ma non sempre identici)
+// Milestone 3:
+// In questa milestone come prima cosa aggiungiamo la copertina del film o della serie al nostro elenco. Ci viene passata dall’API solo la parte finale dell’URL, questo perché poi potremo generare da quella porzione di URL tante dimensioni diverse.
+// Dovremo prendere quindi l’URL base delle immagini di TMDB:
+// https://image.tmdb.org/t/p/ per poi aggiungere la dimensione che vogliamo generare
+// (troviamo tutte le dimensioni possibili a questo link:
+// https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400 ) per poi aggiungere la parte finale dell’URL passata dall’API.
 
 $(document).ready(function(){
   $('button').click(function(){ // al click sul pulsante cerca
@@ -102,11 +108,13 @@ function creaTemplate(filmResults){
     }
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
      var context = { //creo la variabile con il contenuto che andrà nel template.
+        copertina: '<img src="https://image.tmdb.org/t/p/w185' + filmResults[i].poster_path + '"alt="img di copertina">',
         titolo : '<h2>' + titolo + '</h2>',
         titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
+
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
@@ -116,25 +124,25 @@ function creaTemplate(filmResults){
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi ritorna al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
-    return('<img src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="flag_UK">');
+    return('<img class="language" src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="flag_UK">');
   }
   if (flag == 'it') {
-    return('<img src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="flag_italy">');
+    return('<img class="language" src="http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png" alt="flag_italy">');
   }
   if (flag == 'pt') {
-    return('<img src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="flag_portugal">');
+    return('<img class="language" src="https://arad.co.il/assets/Flag-of-Portugal.png" alt="flag_portugal">');
   }
   if (flag == 'de') {
-    return('<img src="http://aux2.iconspalace.com/uploads/424097756.png" alt="flag_germany">');
+    return('<img class="language" src="http://aux2.iconspalace.com/uploads/424097756.png" alt="flag_germany">');
   }
   if (flag == 'fr') {
-    return('<img src="https://arad.co.il/assets/Flag-of-France.png" alt="flag_france">');
+    return('<img class="language" src="https://arad.co.il/assets/Flag-of-France.png" alt="flag_france">');
   }
   if (flag == 'es') {
-    return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
+    return('<img class="language" src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
   }
   if (flag == 'ja') {
-    return('<img src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png">');
+    return('<img class="language" src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png">');
   }
   return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
 };
