@@ -33,6 +33,9 @@ header h1 {
   color: white;
   border: none;
 }
+h1, button:hover {
+  cursor: pointer;
+}
 .searchReaults-container {
   display: flex;
   justify-content: space-around;

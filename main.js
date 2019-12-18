@@ -39,6 +39,7 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
+        console.log(data);
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
@@ -63,7 +64,7 @@ function creaTemplate(filmResults){
   for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
     var titolo = filmResults[i].title //creo una var per il titolo del film
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
-    if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad titolo presente nell'API
+    if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad un titolo presente nell'API
      var context = { //creo la variabile con il contenuto che andrà nel template.
         titolo : '<h2>' + titolo + '</h2>',
         titolo_originale : filmResults[i].original_title,
@@ -77,8 +78,9 @@ function creaTemplate(filmResults){
     }
   }
 };
+//funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
-  if (flag == 'en') {
+  if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi ritorna al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
     return('<img src="https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png" alt="flag_UK">');
   }
   if (flag == 'it') {
@@ -96,5 +98,5 @@ function creaBandiere(flag) {
   if (flag == 'es') {
     return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
   }
-  return(flag)
+  return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di suo
 };
