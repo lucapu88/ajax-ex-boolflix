@@ -26,20 +26,49 @@ $(document).ready(function(){
 //funzione che va a prendermi un film da un API tramite ciò che scrivo all'interno dell'input
 function trovaFilm() {
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
+  //qui sotto c'è la chiamata ajax nel caso in cui si prende un FILM
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
+    $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
     var urlMDb = 'https://api.themoviedb.org/3';
     var apiMovie = '/search/movie'; //API per la ricerca di un film
-    var apiTV = '/search/tv'; //API per la ricerca di una serie TV
     $.ajax({
       url : urlMDb + apiMovie,
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
-        'language' : 'it'
+        //'language' : 'it'
       },
       method : 'get',
       success : function(data) {
-        console.log(data);
+        console.log(data); //tengo il log per verificare gli elementi stampati
+        if (data.total_results > 0) { //se ci sono risultati nella ricerca
+          var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
+          creaTemplate(filmResults); //applico la mia funzione creata
+        } else { //se non ci sono risultati
+          $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
+          $('.searchReaults-container').append('Nessun risultato trovato'); //appendo un messaggio
+          $('.searchMovie').val(''); //resetto l'input con una stringa vuota
+        }
+      },
+      error : function() {
+        alert('error');
+      }
+    });
+  }
+  //qui sotto c'è la chiamata ajax nel caso in cui si prende una SERIE
+  if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
+    var urlMDb = 'https://api.themoviedb.org/3';
+    var apiTV = '/search/tv'; //API per la ricerca di una serie TV
+    $.ajax({
+      url : urlMDb + apiTV,
+      data : {
+        'api_key' : API_KEY,
+        'query' : filmCercato,
+        //'language' : 'it'
+      },
+      method : 'get',
+      success : function(data) {
+        console.log(data); //tengo il log per verificare gli elementi stampati
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
@@ -59,15 +88,22 @@ function trovaFilm() {
 function creaTemplate(filmResults){
   var template_html = $('#myTemplate').html();//recupero il codice html del template
   var template_function = Handlebars.compile(template_html);//do in pasto a handlebars il codice html
-  var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
-  $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
   for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
-    var titolo = filmResults[i].title //creo una var per il titolo del film
+    filmResults[i];
+    if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title
+      var titolo = filmResults[i].title; //creo una var per il titolo del film
+    } else { //se nell'array NON è definita la proprietà .title
+      var titolo = filmResults[i].name;  //creo una var per il titolo della serie
+    }
+    if (filmResults[i].hasOwnProperty('original_title')) { //se nell'array è definita la proprietà .oroginal_title
+      var titolo_originale = filmResults[i].original_title; //creo una var per il titolo originale del film
+    } else { //se nell'array NON è definita la proprietà .original_title
+      var titolo_originale = filmResults[i].original_name; //creo una var per il titolo originale della serie
+    }
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
-    if (titolo.toLowerCase().includes(filmCercato.toLowerCase())) { // se ciò che abbiamo digitato nell'input corrisponde ad un titolo presente nell'API
      var context = { //creo la variabile con il contenuto che andrà nel template.
         titolo : '<h2>' + titolo + '</h2>',
-        titolo_originale : filmResults[i].original_title,
+        titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum) //aggiunge la stella per il risultato di 5 meno il numero del voto
@@ -75,7 +111,6 @@ function creaTemplate(filmResults){
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
       $('.searchMovie').val(''); //resetto l'input con una stringa vuota
-    }
   }
 };
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
@@ -98,5 +133,8 @@ function creaBandiere(flag) {
   if (flag == 'es') {
     return('<img src="https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png" alt="flag_spain">');
   }
-  return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di suo
+  if (flag == 'ja') {
+    return('<img src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png">');
+  }
+  return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
 };
