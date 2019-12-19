@@ -114,8 +114,10 @@ function creaTemplate(filmResults){
     filmResults[i];
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title
       var titolo = filmResults[i].title; //creo una var per il titolo del film
+      var type = 'Film';
     } else { //se nell'array NON è definita la proprietà .title
       var titolo = filmResults[i].name;  //creo una var per il titolo della serie
+      var type = 'SerieTV';
     }
     if (filmResults[i].hasOwnProperty('original_title')) { //se nell'array è definita la proprietà .oroginal_title
       var titolo_originale = filmResults[i].original_title; //creo una var per il titolo originale del film
@@ -123,11 +125,17 @@ function creaTemplate(filmResults){
       var titolo_originale = filmResults[i].original_name; //creo una var per il titolo originale della serie
     }
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
+    if (filmResults[i].poster_path == null) { //se l'immagine di copertina non è presente
+      var copertina = 'img/not-avaible-cover.png'; //creo una var che mi iserisce un'immagine dove c'è scritto che non è disponibile
+    } else { //se l'immagine è presente
+      var copertina = 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path; //creo una var che mi concatena l'url base dell'immagine e il contenuto dell'oggetto
+    }
      var context = { //creo la variabile con il contenuto che andrà nel template.
-        copertina: 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path,
+        copertina: copertina,
         titolo : titolo,
         titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
+        tipologia: type,
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum), //aggiunge la stella per il risultato di 5 meno il numero del voto
         descrizione : filmResults[i].overview
@@ -140,25 +148,25 @@ function creaTemplate(filmResults){
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi ritorna al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
-    return('https://findicons.com/files/icons/656/rounded_world_flags/256/united_kingdom.png');
+    return('img/uk.png');
   }
   if (flag == 'it') {
-    return('http://www.ilviandante.com/wp-content/uploads/2018/05/Flag-of-Italy.png');
+    return('img/Italy.png');
   }
   if (flag == 'pt') {
-    return('https://arad.co.il/assets/Flag-of-Portugal.png');
+    return('img/portugal.png');
   }
   if (flag == 'de') {
-    return('http://aux2.iconspalace.com/uploads/424097756.png');
+    return('img/germany.png');
   }
   if (flag == 'fr') {
-    return('https://arad.co.il/assets/Flag-of-France.png');
+    return('img/france.png');
   }
   if (flag == 'es') {
-    return('https://cefrexambot.com/wp-content/uploads/2017/11/Spain-Flag.png');
+    return('img/spain.png');
   }
   if (flag == 'ja') {
-    return('https://cdn2.iconfinder.com/data/icons/world-flag-icons/256/Flag_of_Japan.png');
+    return('img/japan.png');
   }
   return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
 };

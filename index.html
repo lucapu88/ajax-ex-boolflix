@@ -22,10 +22,11 @@
 
     <script id="myTemplate" type="text/x-handlebars-template">
       <div class="searchReaults">
-        <div class="image active"> <img src="{{copertina}}"alt="locandina non disponibile"> </div>
+        <div class="image active"> <img src="{{copertina}}"alt="locandina {{titolo_originale}}"> </div>
         <div class="info"><h2>{{{titolo}}}</h2></div>
         <div class="info"><strong>Titolo originale:</strong> {{titolo_originale}} </div>
         <div class="info"><strong>Lingua:</strong><img class="language" src="{{{lingua}}}" alt="{{lingua}}"> </div>
+        <div class="info"><strong>Tipologia:</strong> {{tipologia}}</div>
         <div class="info"><strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}</div>
         <div class="info"><strong>Trama:</strong> {{descrizione}}</div>
       </div>
