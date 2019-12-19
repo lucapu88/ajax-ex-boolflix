@@ -58,7 +58,7 @@ function trovaFilm() {
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
-        //'language' : 'it'
+        'language' : 'it'
       },
       method : 'get',
       success : function(data) {
@@ -86,7 +86,7 @@ function trovaFilm() {
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
-        //'language' : 'it'
+        'language' : 'it'
       },
       method : 'get',
       success : function(data) {
@@ -114,10 +114,10 @@ function creaTemplate(filmResults){
     filmResults[i];
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title
       var titolo = filmResults[i].title; //creo una var per il titolo del film
-      var type = 'Film';
+      var type = 'Film'; //creo una var per indicare che è un film
     } else { //se nell'array NON è definita la proprietà .title
       var titolo = filmResults[i].name;  //creo una var per il titolo della serie
-      var type = 'SerieTV';
+      var type = 'SerieTV'; //creo una var per indicare che è una serie
     }
     if (filmResults[i].hasOwnProperty('original_title')) { //se nell'array è definita la proprietà .oroginal_title
       var titolo_originale = filmResults[i].original_title; //creo una var per il titolo originale del film
