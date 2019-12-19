@@ -70,7 +70,7 @@ function trovaFilm() {
         } else { //se non ci sono risultati
           $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
           $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
-          $('.searchMovie').val(''); //resetto l'input con una stringa vuota
+          //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
       },
       error : function() {
@@ -98,7 +98,7 @@ function trovaFilm() {
         } else { //se non ci sono risultati
           $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
           $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
-          $('.searchMovie').val(''); //resetto l'input con una stringa vuota
+          //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
       },
       error : function() {
@@ -131,6 +131,11 @@ function creaTemplate(filmResults){
     } else { //se l'immagine è presente
       var copertina = 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path; //creo una var che mi concatena l'url base dell'immagine e il contenuto dell'oggetto
     }
+    if (filmResults[i].overview == "") { //se non c'è scrita nessuna descrizione del film/serietv
+      var trama = ' Momentaneamente non disponibile'; //la var trama indica che non è disponibile
+    } else { //altrimenti se c'è scritto qualcosa
+      var trama = filmResults[i].overview; //nella var ci va ciò che c'è scritto all'interno
+    }
      var context = { //creo la variabile con il contenuto che andrà nel template.
         copertina: copertina,
         titolo : titolo,
@@ -140,11 +145,11 @@ function creaTemplate(filmResults){
         tipologia: type,
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum), //aggiunge la stella per il risultato di 5 meno il numero del voto
-        descrizione : filmResults[i].overview
+        descrizione : trama
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
-      $('.searchMovie').val(''); //resetto l'input con una stringa vuota
+      //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
 };
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
