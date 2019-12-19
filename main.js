@@ -24,7 +24,8 @@
 
 $(document).ready(function(){
   $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
-    $('.searchReaults-container').empty(); //svuoto il contenitore
+    location.reload(); //ricarico la pagina
+    //$('.searchReaults-container').empty(); //svuoto il contenitore
   });
   $('button').click(function(){ // al click sul pulsante cerca
     trovaFilm(); //applico la mia funzione creata
@@ -35,17 +36,17 @@ $(document).ready(function(){
       trovaFilm(); //applico la mia funzione creata
     }
   });
-  $(document).on('mouseenter', '.searchReaults', function(){
-    $(this).children('.image').removeClass('active');
-    $(this).children('.info').addClass('active');
+  $(document).on('mouseenter', '.searchReaults', function(){ //quando sono con il mouse sul div che contiene la card del film/serie
+    $(this).children('.image').removeClass('active'); //nascondo l'immagine
+    $(this).children('.info').addClass('active'); //mostro i dettagli
   });
-  $(document).on('mouseleave', '.searchReaults', function(){
-    $(this).children('.info').removeClass('active');
-    $(this).children('.image').addClass('active');
+  $(document).on('mouseleave', '.searchReaults', function(){ //quando esco con il mouse dal div che contiene la card del film/serie
+    $(this).children('.info').removeClass('active'); //nascondo i dettagli
+    $(this).children('.image').addClass('active'); //mostro l'immagine
   });
 });
 
-//funzione che va a prendermi un film da un API tramite ciò che scrivo all'interno dell'input
+//funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
 function trovaFilm() {
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
   //qui sotto c'è la chiamata ajax nel caso in cui si prende un FILM
@@ -80,7 +81,7 @@ function trovaFilm() {
   //qui sotto c'è la chiamata ajax nel caso in cui si prende una SERIE
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
     var urlMDb = 'https://api.themoviedb.org/3';
-    var apiTV = '/search/tv'; //API per la ricerca di una serie TV
+    var apiTV = '/search/tv'; //API per la ricerca di una SerieTV
     $.ajax({
       url : urlMDb + apiTV,
       data : {
@@ -112,17 +113,17 @@ function creaTemplate(filmResults){
   var template_function = Handlebars.compile(template_html);//do in pasto a handlebars il codice html
   for (var i = 0; i < filmResults.length; i++) { //vado a scorrere per tutta la lunghezza dell'array
     filmResults[i];
-    if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title
-      var titolo = filmResults[i].title; //creo una var per il titolo del film
-      var type = 'Film'; //creo una var per indicare che è un film
-    } else { //se nell'array NON è definita la proprietà .title
-      var titolo = filmResults[i].name;  //creo una var per il titolo della serie
-      var type = 'SerieTV'; //creo una var per indicare che è una serie
-    }
-    if (filmResults[i].hasOwnProperty('original_title')) { //se nell'array è definita la proprietà .oroginal_title
+    if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
+      var titolo = filmResults[i].title; //creo una var per il titolo del Film
+      var type = 'Film'; //creo una var per indicare che è un Film
+      var date = filmResults[i].release_date; //creo una var per indicare la data di rilascio Film
       var titolo_originale = filmResults[i].original_title; //creo una var per il titolo originale del film
-    } else { //se nell'array NON è definita la proprietà .original_title
-      var titolo_originale = filmResults[i].original_name; //creo una var per il titolo originale della serie
+    }
+    else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
+      var titolo = filmResults[i].name;  //creo una var per il titolo della SerieTV
+      var type = 'SerieTV'; //creo una var per indicare che è una SerieTV
+      var date = filmResults[i].first_air_date; //creo una var per indicare la data di rilascio SerieTV
+      var titolo_originale = filmResults[i].original_name; //creo una var per il titolo originale della SerieTV
     }
     var votoNum = Math.round(filmResults[i].vote_average / 2); //creo una var che dimezza il voto e lo arrotonda
     if (filmResults[i].poster_path == null) { //se l'immagine di copertina non è presente
@@ -135,6 +136,7 @@ function creaTemplate(filmResults){
         titolo : titolo,
         titolo_originale : titolo_originale,
         lingua : creaBandiere(filmResults[i].original_language), //richiamo la funzione che mi inserisce la bandiera della nazione corrispondente alla lingua
+        date : date,
         tipologia: type,
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum), //aggiunge la stella per il risultato di 5 meno il numero del voto
@@ -147,7 +149,7 @@ function creaTemplate(filmResults){
 };
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
-  if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi ritorna al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
+  if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
     return('img/uk.png');
   }
   if (flag == 'it') {
