@@ -12,13 +12,27 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 20px;
-  /* background-color: black;
-  (opzionale: a me sinceramente non piace quindi lo tolgo) */
+  padding: 10px;
+  background-color: black;
   justify-content: space-between;
 }
 .home {
   color: red;
+}
+.choise, option {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  background-color: black;
+  border: none;
+  padding: 10px;
+  color: white;
+}
+.choise {
+  display: none;
+}
+.visible{
+  display: block;
 }
 .searchBar {
   margin: 0 10px 0 10px;
@@ -27,8 +41,9 @@ header {
   justify-content: flex-end;
 }
 .searchMovie {
-  margin-right: 10px;
+  margin:4px 10px 4px 5px;
   width: 40%;
+  padding: 5px;
   border-radius: 5px;
 }
 .searchBar button {
@@ -55,10 +70,16 @@ header {
   margin-bottom: 100px;
   border: 1px solid white;
   width: 370px;
-  height: 542px;
+  height: 545px;
   display: flex;
   text-align: center;
   flex-direction: column;
+}
+.image img {
+  max-height: 100%;
+}
+.image {
+  max-height: 100%;
 }
 .info:last-child {
   overflow-y: auto;

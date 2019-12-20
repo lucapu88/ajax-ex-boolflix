@@ -14,7 +14,12 @@
     <header>
       <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
-        <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un film che vuoi cercare">
+        <select class="choise" name="">
+          <option value="">Ordina per...</option>
+          <option value="serietv">SerieTV</option>
+          <option value="film">Film</option>
+        </select>
+        <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un Film o di una SerieTV che vuoi cercare">
         <button type="button" name="button"><strong> Cerca </strong></button>
       </div>
     </header>
@@ -22,15 +27,31 @@
     </div>
 
     <script id="myTemplate" type="text/x-handlebars-template">
-      <div class="searchReaults">
-        <div class="image active"> <img src="{{copertina}}"alt="locandina {{titolo_originale}}"> </div>
-        <div class="info"><h2>{{{titolo}}}</h2></div>
-        <div class="info"><strong>Titolo originale:</strong> {{titolo_originale}} </div>
-        <div class="info"><strong>Lingua:</strong><img class="language" src="{{{lingua}}}" alt="{{lingua}}"> </div>
-        <div class="info"><strong>Tipologia:</strong> {{tipologia}}</div>
-        <div class="info"><strong>Data di uscita:</strong> {{date}}</div>
-        <div class="info"><strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}</div>
-        <div class="info"><strong>Trama:</strong> {{descrizione}}</div>
+      <div class="searchReaults" data-type="{{tipologia}}">
+        <div class="image active">
+          <img src="{{copertina}}"alt="locandina {{titolo_originale}}">
+        </div>
+        <div class="info">
+          <h2>{{{titolo}}}</h2>
+        </div>
+        <div class="info">
+          <strong>Titolo originale:</strong> {{titolo_originale}}
+        </div>
+        <div class="info">
+          <strong>Lingua:</strong><img class="language" src="{{{lingua}}}" alt="{{lingua}}">
+        </div>
+        <div class="info">
+          <strong>Tipologia:</strong> {{tipologia}}
+        </div>
+        <div class="info">
+          <strong>Data di uscita:</strong> {{date}}
+        </div>
+        <div class="info">
+          <strong>Voto:</strong> {{{voto}}}{{{voto_restante}}}
+        </div>
+        <div class="info">
+          <strong>Trama:</strong> {{descrizione}}
+        </div>
       </div>
     </script>
 
