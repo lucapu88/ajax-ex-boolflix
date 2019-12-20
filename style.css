@@ -9,7 +9,12 @@ body {
 }
 header {
   display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
   padding: 20px;
+  /* background-color: black;
+  (opzionale: a me sinceramente non piace quindi lo tolgo) */
   justify-content: space-between;
 }
 .home {
@@ -37,6 +42,7 @@ header {
   cursor: pointer;
 }
 .searchReaults-container {
+  padding-top: 150px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -49,9 +55,13 @@ header {
   margin-bottom: 100px;
   border: 1px solid white;
   width: 370px;
+  height: 542px;
   display: flex;
   text-align: center;
   flex-direction: column;
+}
+.info:last-child {
+  overflow-y: auto;
 }
 .info, .image {
   display: none;

@@ -80,6 +80,7 @@ function trovaFilm() {
   }
   //qui sotto c'è la chiamata ajax nel caso in cui si prende una SERIE
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
+    $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
     var urlMDb = 'https://api.themoviedb.org/3';
     var apiTV = '/search/tv'; //API per la ricerca di una SerieTV
     $.ajax({
@@ -148,6 +149,13 @@ function creaTemplate(filmResults){
         descrizione : trama
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
+      //devo creare una variabile che mi prende l'id del film
+      //con questa variabile devo creare un api che contiene il cast del film
+      //devo creare un array vuoto che andrà a contenere gli attori
+      //la parte del cast sarà un array contenente il cast e quindi lo ciclo
+      //da quel ciclo devo prendere gli attori e pusharli nell'array svuoto
+      //da quell'array pieno di attori devo prenderne solo i primi 5
+
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
