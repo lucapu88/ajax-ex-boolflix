@@ -6,12 +6,14 @@ $(document).ready(function(){
   $('button').click(function(){ // al click sul pulsante cerca
     trovaFilm(); //applico la mia funzione creata
     $('.choise').addClass('visible'); //rendo visibile la select per scegliere le opzioni
+    var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
       trovaFilm(); //applico la mia funzione creata
       $('.choise').addClass('visible'); //rendo visibile la select per scegliere le opzioni
+      var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
   });
   $(document).on('mouseenter', '.searchReaults', function(){ //quando sono con il mouse sul div che contiene la card del film/serie
@@ -61,7 +63,6 @@ function trovaFilm() {
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
         } else { //se non ci sono risultati
-          $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
           $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
@@ -89,7 +90,6 @@ function trovaFilm() {
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
         } else { //se non ci sono risultati
-          $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
           $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
@@ -141,12 +141,36 @@ function creaTemplate(filmResults){
         descrizione : trama
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
+      /* var filmCercato = $('.searchMovie').val();
       //devo creare una variabile che mi prende l'id del film
+      var filmId = filmResults[i].id;
       //con questa variabile devo creare una chiamata ajax con un api che contiene il cast del film
-      //devo creare un array vuoto che andrà a contenere gli attori
-      //la parte del cast sarà un array contenente il cast e quindi lo ciclo
-      //da quel ciclo devo prendere gli attori e pusharli nell'array vuoto
-      //da quell'array pieno di attori devo prenderne solo i primi 5
+      var urlMDb = 'https://api.themoviedb.org/3';
+      var apiMovCredits = '/movie/'; //API per la ricerca di un film
+      $.ajax({
+        url : urlMDb + apiMovCredits + filmId,
+        data : {
+          'api_key' : API_KEY,
+          'query' : filmCercato,
+          'language' : 'it'
+        },
+        method : 'get',
+        success : function(data) {
+          //devo creare un array vuoto che andrà a contenere gli attori
+          var actor = [];
+          var actorResults = data.cast;
+          for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
+            //da quel ciclo devo prendere gli attori e pusharli nell'array vuoto
+            actor.push(cast[i].name);
+          }
+          //da quell'array pieno di attori devo prenderne solo i primi 5
+          var fiveActor = actor.slice(0,5);
+          console.log(fiveActor);
+        },
+        error : function() {
+          alert('error');
+        }
+      }); */
 
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
