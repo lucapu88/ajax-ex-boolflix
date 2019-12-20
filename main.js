@@ -29,7 +29,7 @@ $(document).ready(function(){
     } else { //altrimenti se viene scelto 'Film' oppure 'SerieTV'
       $('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
       var typeChoise = $(this).attr('data-type'); //creo una var che mi prende l'attributo del data corrispondente
-      if (typeChoise == typeSelect) { //se l'attributo del typeChoise è uguale a una delle opzioni sella select
+      if (typeChoise.toLowerCase() == typeSelect.toLowerCase()) { //se l'attributo del typeChoise è uguale a una delle opzioni sella select
         $(this).fadeIn(); //allora lo mostro
       } else {
         $(this).fadeOut(); //altrimenti lo nascondo
