@@ -62,6 +62,7 @@ function trovaFilm() {
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
+          creaCast(data);
         } else { //se non ci sono risultati
           $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
@@ -89,6 +90,7 @@ function trovaFilm() {
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
+          creaCast(data);
         } else { //se non ci sono risultati
           $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
@@ -141,41 +143,40 @@ function creaTemplate(filmResults){
         descrizione : trama
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
-      /* var filmCercato = $('.searchMovie').val();
-      //devo creare una variabile che mi prende l'id del film
-      var filmId = filmResults[i].id;
-      //con questa variabile devo creare una chiamata ajax con un api che contiene il cast del film
-      var urlMDb = 'https://api.themoviedb.org/3';
-      var apiMovCredits = '/movie/'; //API per la ricerca di un film
-      $.ajax({
-        url : urlMDb + apiMovCredits + filmId,
-        data : {
-          'api_key' : API_KEY,
-          'query' : filmCercato,
-          'language' : 'it'
-        },
-        method : 'get',
-        success : function(data) {
-          //devo creare un array vuoto che andrà a contenere gli attori
-          var actor = [];
-          var actorResults = data.cast;
-          for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
-            //da quel ciclo devo prendere gli attori e pusharli nell'array vuoto
-            actor.push(cast[i].name);
-          }
-          //da quell'array pieno di attori devo prenderne solo i primi 5
-          var fiveActor = actor.slice(0,5);
-          console.log(fiveActor);
-        },
-        error : function() {
-          alert('error');
-        }
-      }); */
-
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
 };
+//funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
+function creaCast(data) {
+  var filmResults = data.results;
+  for (var i = 0; i < filmResults.length; i++) {
+    if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
+      var apiMovCredits = '/movie/'; //API per un film
+    } else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
+      var apiMovCredits = '/tv/'; //API per una serietv
+    }
+      var filmId = filmResults[i].id; //variabile che mi prende l'id del film
+  }
+    var urlMDb = 'https://api.themoviedb.org/3';
+    $.ajax({
+      url : urlMDb + apiMovCredits + filmId + '/credits?api_key=' + API_KEY,
+      method : 'get',
+      success : function(data) {
+        var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
+        var actor = []; //array che andrà a contenere tutti gli attori del film/serie
+        for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
+          actor.push(actorResults[i].name + ''); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
+        }
+        var fiveActor = actor.slice(0,5); //dall'array actor, una volta pieno, prendo solo i primi 5
+        //console.log(fiveActor);
+        $('.searchReaults').find('.cast').append(fiveActor); //in fine vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
+      },
+      error : function() {
+
+      }
+    });
+}
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
