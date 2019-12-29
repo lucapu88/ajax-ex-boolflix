@@ -14,6 +14,13 @@
     <header>
       <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
+        <select class="choise_language" name="">
+          <option value="">Selezione lingua (default Ita)</option>
+          <option value="eng">English</option>
+          <option value="spa">Español</option>
+          <option value="ger">Deutsch</option>
+          <option value="fra">Français</option>
+        </select>
         <select class="choise" name="">
           <option value="">Ordina per...</option>
           <option value="serietv">SerieTV</option>
@@ -25,9 +32,14 @@
     </header>
     <div class="searchReaults-container">
     </div>
-
+    <div class="pages">
+      <div class="number">1</div>
+      <div class="number">2</div>
+      <div class="number">3</div>
+      <div class="number">4</div>
+    </div>
     <script id="myTemplate" type="text/x-handlebars-template">
-      <div class="searchReaults" data-type="{{tipologia}}">
+      <div class="searchReaults" data-type="{{tipologia}}" dataId="{{id}}">
         <div class="image active">
           <img src="{{copertina}}"alt="locandina {{titolo_originale}}">
         </div>

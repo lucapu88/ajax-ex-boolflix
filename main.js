@@ -39,6 +39,24 @@ $(document).ready(function(){
     });
     }
   });
+  /*$('.choise_language').change(function(){ //verifico quando viene cambiata l'opzione
+    var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
+    if (typeSelect == '') { // se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Ordina per...' (che non ha val)
+      var language = 'it'; //la lingua è di default in italiano
+    }
+    if (typeSelect == 'eng') { // se l'opzione scelta è uguale a 'eng'
+      var language = 'en';//la lingua di ricerca sarà in inglese
+    }
+    if (typeSelect == 'spa') { // se l'opzione scelta è uguale a 'spa'
+      var language = 'es';//la lingua di ricerca sarà in spagnolo
+    }
+    if (typeSelect == 'ger') {// se l'opzione scelta è uguale a 'ger'
+      var language = 'de';//la lingua di ricerca sarà in tedesco
+    }
+    if (typeSelect == 'fra') { // se l'opzione scelta è uguale a 'fra'
+      var language = 'fr';//la lingua di ricerca sarà in francese
+    }
+  });*/
 });
 
 //funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
@@ -58,7 +76,11 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
+        console.log('film:');
         console.log(data); //tengo il log per verificare gli elementi stampati
+        // if (data.total_pages > 0) {
+        //   creaTemplate(filmResults); //applico la mia funzione creata
+        // }
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata
@@ -69,7 +91,7 @@ function trovaFilm() {
         }
       },
       error : function() {
-        alert('error');
+        alert('film error');
       }
     });
   }
@@ -86,6 +108,7 @@ function trovaFilm() {
       },
       method : 'get',
       success : function(data) {
+        console.log('SerieTV:');
         console.log(data); //tengo il log per verificare gli elementi stampati
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
@@ -97,7 +120,7 @@ function trovaFilm() {
         }
       },
       error : function() {
-        alert('error');
+        alert('serie error');
       }
     });
   }
@@ -140,7 +163,8 @@ function creaTemplate(filmResults){
         tipologia: type,
         voto : '<i class="fas fa-star"></i>'.repeat(votoNum), //ripete la stella per il numero del voto
         voto_restante : '<i class="far fa-star"></i>'.repeat(5 - votoNum), //aggiunge la stella per il risultato di 5 meno il numero del voto
-        descrizione : trama
+        descrizione : trama,
+        id : filmResults[i].id
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
@@ -148,7 +172,7 @@ function creaTemplate(filmResults){
   }
 };
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
-function creaCast(data) {
+/*function creaCast(data) {
   var filmResults = data.results;
   for (var i = 0; i < filmResults.length; i++) {
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
@@ -157,7 +181,6 @@ function creaCast(data) {
       var apiMovCredits = '/tv/'; //API per una serietv
     }
       var filmId = filmResults[i].id; //variabile che mi prende l'id del film
-  }
     var urlMDb = 'https://api.themoviedb.org/3';
     $.ajax({
       url : urlMDb + apiMovCredits + filmId + '/credits?api_key=' + API_KEY,
@@ -165,18 +188,24 @@ function creaCast(data) {
       success : function(data) {
         var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
         var actor = []; //array che andrà a contenere tutti gli attori del film/serie
-        for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
-          actor.push(actorResults[i].name + ''); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
+        if (actorResults != 0) { //se l'array data.cast contiene risultati
+          for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
+            actor.push(actorResults[i].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
+          }
+          var fiveActor = actor.slice(0,5); //dall'array actor, una volta pieno, prendo solo i primi 5
+          console.log('cast:');
+          console.log(fiveActor);
+          $('.searchReaults').find('.cast').append(fiveActor); //in fine vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
+        } else { //altrimenti se è vuoto
+          $('.searchReaults').find('.cast').append(' Cast non disponibile');
         }
-        var fiveActor = actor.slice(0,5); //dall'array actor, una volta pieno, prendo solo i primi 5
-        //console.log(fiveActor);
-        $('.searchReaults').find('.cast').append(fiveActor); //in fine vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
       },
       error : function() {
-
+        alert('cast error');
       }
     });
-}
+  }
+} */
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)

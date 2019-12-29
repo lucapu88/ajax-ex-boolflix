@@ -19,7 +19,7 @@ header {
 .home {
   color: red;
 }
-.choise, option {
+.choise, .choise_language, option {
   display: flex;
   justify-content: flex-end;
   margin-right: 10px;
@@ -74,6 +74,21 @@ header {
   display: flex;
   text-align: center;
   flex-direction: column;
+}
+.pages {
+  display: flex;
+  justify-content: center;
+}
+.number {
+  margin: 10px;
+  display: flex;
+  background-color: red;
+  color: white;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 4px;
+  height: 30px;
+  width: 30px;
 }
 .image img {
   max-height: 100%;
