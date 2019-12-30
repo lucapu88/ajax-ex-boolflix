@@ -28,12 +28,6 @@ header {
   padding: 10px;
   color: white;
 }
-.choise {
-  display: none;
-}
-.visible{
-  display: block;
-}
 .searchBar {
   margin: 0 10px 0 10px;
   display: flex;
@@ -97,10 +91,18 @@ header {
   max-height: 100%;
 }
 .info:last-child {
+  margin-top: 5px;
   overflow-y: auto;
 }
-.info, .image {
+.info, .image, .choise, .number {
   display: none;
+}
+.visible {
+  display: flex;
+}
+.info strong {
+  color: red;
+  margin-right: 5px;
 }
 .active {
   display: block;

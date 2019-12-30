@@ -5,14 +5,14 @@ $(document).ready(function(){
   });
   $('button').click(function(){ // al click sul pulsante cerca
     trovaFilm(); //applico la mia funzione creata
-    $('.choise').addClass('visible'); //rendo visibile la select per scegliere le opzioni
+    $('.choise, .number').addClass('visible'); //rendo visibile la select per scegliere le opzioni
     var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
       trovaFilm(); //applico la mia funzione creata
-      $('.choise').addClass('visible'); //rendo visibile la select per scegliere le opzioni
+      $('.choise, .number').addClass('visible'); //rendo visibile la select per scegliere le opzioni
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
   });
@@ -39,7 +39,7 @@ $(document).ready(function(){
     });
     }
   });
-  /*$('.choise_language').change(function(){ //verifico quando viene cambiata l'opzione
+  $('.choise_language').change(function(){ //verifico quando viene cambiata l'opzione
     var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
     if (typeSelect == '') { // se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Ordina per...' (che non ha val)
       var language = 'it'; //la lingua è di default in italiano
@@ -56,7 +56,7 @@ $(document).ready(function(){
     if (typeSelect == 'fra') { // se l'opzione scelta è uguale a 'fra'
       var language = 'fr';//la lingua di ricerca sarà in francese
     }
-  });*/
+  });
 });
 
 //funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
@@ -83,8 +83,8 @@ function trovaFilm() {
         // }
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
-          creaTemplate(filmResults); //applico la mia funzione creata
-          creaCast(data);
+          creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
+          creaCast(data); //applico la mia funzione per stampare il cast
         } else { //se non ci sono risultati
           $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
@@ -112,8 +112,8 @@ function trovaFilm() {
         console.log(data); //tengo il log per verificare gli elementi stampati
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
-          creaTemplate(filmResults); //applico la mia funzione creata
-          creaCast(data);
+          creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
+          creaCast(data); //applico la mia funzione per stampare il cast
         } else { //se non ci sono risultati
           $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
@@ -172,15 +172,15 @@ function creaTemplate(filmResults){
   }
 };
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
-/*function creaCast(data) {
-  var filmResults = data.results;
-  for (var i = 0; i < filmResults.length; i++) {
+function creaCast(data) {
+  var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
+  for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dell'array contenente i film
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
       var apiMovCredits = '/movie/'; //API per un film
     } else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
       var apiMovCredits = '/tv/'; //API per una serietv
     }
-      var filmId = filmResults[i].id; //variabile che mi prende l'id del film
+    var filmId = filmResults[i].id; //variabile che mi prende l'id del film
     var urlMDb = 'https://api.themoviedb.org/3';
     $.ajax({
       url : urlMDb + apiMovCredits + filmId + '/credits?api_key=' + API_KEY,
@@ -188,24 +188,27 @@ function creaTemplate(filmResults){
       success : function(data) {
         var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
         var actor = []; //array che andrà a contenere tutti gli attori del film/serie
-        if (actorResults != 0) { //se l'array data.cast contiene risultati
-          for (var i = 0; i < actorResults.length; i++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
-            actor.push(actorResults[i].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
+          for (var j = 0; j < actorResults.length; j++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
+            actor.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
           }
           var fiveActor = actor.slice(0,5); //dall'array actor, una volta pieno, prendo solo i primi 5
           console.log('cast:');
           console.log(fiveActor);
-          $('.searchReaults').find('.cast').append(fiveActor); //in fine vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
-        } else { //altrimenti se è vuoto
+          if (actorResults != 0) { //se l'array data.cast contiene risultati
+            $('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
+              $(this).find('.cast').text(fiveActor); //vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
+              //se faccio append mi va ad inserire tutti insieme sempre nello stesso $(this).find('.cast').append(fiveActor);
+            });
+          } else { //altrimenti se è vuoto
           $('.searchReaults').find('.cast').append(' Cast non disponibile');
-        }
+          }
       },
       error : function() {
         alert('cast error');
       }
     });
   }
-} */
+}
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
