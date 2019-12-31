@@ -5,14 +5,12 @@ $(document).ready(function(){
   });
   $('button').click(function(){ // al click sul pulsante cerca
     trovaFilm(); //applico la mia funzione creata
-    $('.choise, .number').addClass('visible'); //rendo visibile la select per scegliere le opzioni
     var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
       trovaFilm(); //applico la mia funzione creata
-      $('.choise, .number').addClass('visible'); //rendo visibile la select per scegliere le opzioni
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
   });
@@ -39,28 +37,27 @@ $(document).ready(function(){
     });
     }
   });
-  $('.choise_language').change(function(){ //verifico quando viene cambiata l'opzione
-    var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
-    if (typeSelect == '') { // se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Ordina per...' (che non ha val)
-      var language = 'it'; //la lingua è di default in italiano
-    }
-    if (typeSelect == 'eng') { // se l'opzione scelta è uguale a 'eng'
-      var language = 'en';//la lingua di ricerca sarà in inglese
-    }
-    if (typeSelect == 'spa') { // se l'opzione scelta è uguale a 'spa'
-      var language = 'es';//la lingua di ricerca sarà in spagnolo
-    }
-    if (typeSelect == 'ger') {// se l'opzione scelta è uguale a 'ger'
-      var language = 'de';//la lingua di ricerca sarà in tedesco
-    }
-    if (typeSelect == 'fra') { // se l'opzione scelta è uguale a 'fra'
-      var language = 'fr';//la lingua di ricerca sarà in francese
-    }
-  });
 });
+//-------------------------------------FUNZIONI----------------------------------------------
 
 //funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
 function trovaFilm() {
+  var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
+  if (typeSelect == '') { //se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Lingua di ricerca (default ITA)' (che non ha val)
+    var language = 'it'; //la lingua è di default in italiano
+  }
+  if (typeSelect == 'eng') { //se l'opzione scelta è uguale a 'eng'
+    var language = 'en'; //la lingua di ricerca sarà in inglese
+  }
+  if (typeSelect == 'spa') { //se l'opzione scelta è uguale a 'spa'
+    var language = 'es'; //la lingua di ricerca sarà in spagnolo
+  }
+  if (typeSelect == 'ger') { //se l'opzione scelta è uguale a 'ger'
+    var language = 'de'; //la lingua di ricerca sarà in tedesco
+  }
+  if (typeSelect == 'fra') { //se l'opzione scelta è uguale a 'fra'
+    var language = 'fr'; //la lingua di ricerca sarà in francese
+  }
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
   //qui sotto c'è la chiamata ajax nel caso in cui si prende un FILM
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
@@ -72,7 +69,7 @@ function trovaFilm() {
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
-        'language' : 'it'
+        'language' : language
       },
       method : 'get',
       success : function(data) {
@@ -104,7 +101,7 @@ function trovaFilm() {
       data : {
         'api_key' : API_KEY,
         'query' : filmCercato,
-        'language' : 'it'
+        'language' : language
       },
       method : 'get',
       success : function(data) {
@@ -124,7 +121,7 @@ function trovaFilm() {
       }
     });
   }
-};
+} //FINE funzione trovaFilm
 //funzione che mi prende gli oggetti da un array e mi stampa il template in html
 function creaTemplate(filmResults){
   var template_html = $('#myTemplate').html();//recupero il codice html del template
@@ -168,11 +165,12 @@ function creaTemplate(filmResults){
       }
       var risultatoRicerca = template_function(context); // utilizzando la funzione generata da handlebars, creo l'html finale
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
+      $('.choise, .number').addClass('visible'); //rendo visibile le pagine, e la select per scegliere le opzioni
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
-};
+}  //FINE funzione creaTemplate
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
-function creaCast(data) {
+/*function creaCast(data) {
   var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
   for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dell'array contenente i film
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
@@ -196,11 +194,12 @@ function creaCast(data) {
           console.log(fiveActor);
           if (actorResults != 0) { //se l'array data.cast contiene risultati
             $('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
-              $(this).find('.cast').text(fiveActor); //vado a cercare il cast nel div e ci appendo l'array contenente solo i 5 attori
-              //se faccio append mi va ad inserire tutti insieme sempre nello stesso $(this).find('.cast').append(fiveActor);
+              //$(this).find('.cast').text(fiveActor); //vado a cercare il cast nel div e ci metto come testo l'array contenente solo i 5 attori
+              //se faccio append mi va ad inserire tutti gli array insieme in ogni div
+              $(this).find('.cast').append(fiveActor);
             });
           } else { //altrimenti se è vuoto
-          $('.searchReaults').find('.cast').append(' Cast non disponibile');
+          $('.searchReaults').find('.cast').text(' Cast non disponibile');
           }
       },
       error : function() {
@@ -208,7 +207,7 @@ function creaCast(data) {
       }
     });
   }
-}
+}*/ //FINE funzione creaCast
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
@@ -233,4 +232,4 @@ function creaBandiere(flag) {
     return('img/japan.png');
   }
   return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
-};
+}  //FINE funzione creaBandiere
