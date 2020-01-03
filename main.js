@@ -170,7 +170,7 @@ function creaTemplate(filmResults){
   }
 }  //FINE funzione creaTemplate
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
-/*function creaCast(data) {
+function creaCast(data) {
   var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
   for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dell'array contenente i film
     if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
@@ -185,29 +185,33 @@ function creaTemplate(filmResults){
       method : 'get',
       success : function(data) {
         var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
-        var actor = []; //array che andrà a contenere tutti gli attori del film/serie
-          for (var j = 0; j < actorResults.length; j++) { //la parte del cast sarà un array contenente il cast e quindi lo ciclo
-            actor.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto
+        var actors = []; //array che andrà a contenere tutti gli attori del film/serie
+        if (actorResults.length == 0) { //se non ci sono risultati nel cast
+            $('.searchReaults').find('.cast').append(' Cast non disponibile');//appendo un testo
+        } else { //altrimenti se ci sono risultati nel cast
+          for (var j = 0; j < actorResults.length && j < 5; j++) { //la parte del cast sarà un array contenente tutti i nomi degli attori e quindi lo ciclo
+            actors.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto per 5 volte poichè mi servono solo i primi 5 (oppure potevo usare .slice(0,5) sulla var actors)
           }
-          var fiveActor = actor.slice(0,5); //dall'array actor, una volta pieno, prendo solo i primi 5
-          console.log('cast:');
-          console.log(fiveActor);
-          if (actorResults != 0) { //se l'array data.cast contiene risultati
-            $('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
-              //$(this).find('.cast').text(fiveActor); //vado a cercare il cast nel div e ci metto come testo l'array contenente solo i 5 attori
-              //se faccio append mi va ad inserire tutti gli array insieme in ogni div
-              $(this).find('.cast').append(fiveActor);
-            });
-          } else { //altrimenti se è vuoto
-          $('.searchReaults').find('.cast').text(' Cast non disponibile');
-          }
+          console.log(actors);
+          $('.searchReaults').find('.cast').append(actors); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
+        }
+          // if (actors == 0) { //se l'array data.cast contiene risultati
+          //   //$('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
+          //     //$(this).find('.cast').text(fiveActors); //vado a cercare il cast nel div e ci metto come testo l'array contenente solo i 5 attori
+          //     //se faccio append mi va ad inserire tutti gli array insieme in ogni div
+          //     $('.searchReaults').find('.cast').append(' Cast non disponibile');
+          //
+          //   //});
+          // } else { //altrimenti se è vuoto
+          //   $('.searchReaults').find('.cast').append(actors);
+          // }
       },
       error : function() {
         alert('cast error');
       }
     });
   }
-}*/ //FINE funzione creaCast
+} //FINE funzione creaCast
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)

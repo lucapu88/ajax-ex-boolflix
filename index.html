@@ -39,6 +39,7 @@
       <div class="number">4</div>
     </div>
     <script id="myTemplate" type="text/x-handlebars-template">
+      <!-- dovrebbe essere searchResults ma siccome ho notato l'errore quando ho scritto già parecchio codice JS meglio non correggere per evitare casini -->
       <div class="searchReaults" data-type="{{tipologia}}" dataId="{{id}}">
         <div class="image active">
           <img src="{{copertina}}"alt="locandina {{titolo_originale}}">
@@ -62,7 +63,7 @@
           <strong>Voto:</strong>{{{voto}}}{{{voto_restante}}}
         </div>
         <div class="info">
-          <strong>Cast:</strong>{{cast}}<span class="cast"></span>
+          <strong>Cast:</strong><span class="cast"></span>
         </div>
         <div class="info">
           <strong>Trama:</strong>{{descrizione}}
