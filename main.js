@@ -13,16 +13,37 @@ $(document).ready(function(){
         }
       }
       console.log(film3);
-      $('#slideshow > #film1').append(film3.slice(0,3)); //appendo nel primo div le prime 3 locandine
-      $('#slideshow > #film2').append(film3.slice(3,6)); //appendo nel secondo div le successive 3 locandine
-      $('#slideshow > #film3').append(film3.slice(6,9)); //appendo nel terzo div le altre successive 3 locandine
-      $('#slideshow > #film4').append(film3.slice(9,12)); //appendo nel quarto div le ultime 3 locandine
+      $('#slideshow > #film1').append(film3.slice(0,3)); //appendo nel primo div le prime 3 locandine dei film
+      $('#slideshow > #film3').append(film3.slice(3,6)); //appendo nel terzo div le successive 3 locandine dei film
+      $('#slideshow > #film5').append(film3.slice(6,9)); //appendo nel quinto div le altre successive 3 locandine dei film
     },
     error : function() {
       alert('cast error');
     }
   });
-  //creo un carosello automatico che mostrerà (a gruppi di 3 immagini) ogni 3,5 secondi le locandine dei film del momento più votate
+  //chiamata ajax per creare una home page con le serie tv del momento.
+  $.ajax({
+    url : 'https://api.themoviedb.org/3/tv/popular?api_key=' + API_KEY+ '&language=it-IT&page=1',
+    method : 'get',
+    success : function(data) {
+      var filmResults = data.results;
+      var serie3 = []; //creo un array vuoto che conterrà le locandine dei film
+      for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dei risultati
+        var imgSerie = '<img src="' + 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path + '">'; //var che conterrà il tag dell'immagine
+        if (filmResults[i].poster_path != null && filmResults[i].vote_average > 6) { //controllo prima che ci sia un'immagine come locandina e che il voto del film sia superiore a 6 (in modo da far uscire i film più votati)
+          serie3.push(imgSerie); //vado ad inserire nell'array la locandina
+        }
+      }
+      console.log(film3);
+      $('#slideshow > #film2').append(serie3.slice(0,3)); //appendo nel secondo div le prime 3 locandine delle serie
+      $('#slideshow > #film4').append(serie3.slice(3,6)); //appendo nel quarto div le successive 3 locandine delle serie
+      $('#slideshow > #film6').append(serie3.slice(6,9)); //appendo nel sesto div le altre successive 3 locandine delle serie
+    },
+    error : function() {
+      alert('cast error');
+    }
+  });
+  //creo un carosello automatico che mostrerà (a gruppi di 3 immagini) ogni 3,5 secondi le locandine dei film e delle serie del momento
   var clock = setInterval(function(){ //apro la funzione che fa partire il mio timer
     var divActive = $('div.evident'); //dichiaro la var contenente il div visibile.
     var divNext = divActive.next('div'); //dichiaro la var contenente il div successivo.
