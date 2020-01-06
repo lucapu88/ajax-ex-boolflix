@@ -1,4 +1,37 @@
 $(document).ready(function(){
+  //chiamata ajax per creare una home page con i film del momento
+  $.ajax({
+    url : 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY+ '&language=it-IT&page=1',
+    method : 'get',
+    success : function(data) {
+      var filmResults = data.results;
+      var film3 = []; //creo un array vuoto che conterrà le locandine dei film
+      for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dei risultati
+        var imgFilm = '<img src="' + 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path + '">'; //var che conterrà il tag dell'immagine
+        if (filmResults[i].poster_path != null && filmResults[i].vote_average > 6) { //controllo prima che ci sia un'immagine come locandina e che il voto del film sia superiore a 6 (in modo da far uscire i film più votati)
+          film3.push(imgFilm); //vado ad inserire nell'array la locandina
+        }
+      }
+      console.log(film3);
+      $('#slideshow > #film1').append(film3.slice(0,3)); //appendo nel primo div le prime 3 locandine
+      $('#slideshow > #film2').append(film3.slice(3,6)); //appendo nel secondo div le successive 3 locandine
+      $('#slideshow > #film3').append(film3.slice(6,9)); //appendo nel terzo div le altre successive 3 locandine
+      $('#slideshow > #film4').append(film3.slice(9,12)); //appendo nel quarto div le ultime 3 locandine
+    },
+    error : function() {
+      alert('cast error');
+    }
+  });
+  //creo un carosello automatico che mostrerà (a gruppi di 3 immagini) ogni 3,5 secondi le locandine dei film del momento più votate
+  var clock = setInterval(function(){ //apro la funzione che fa partire il mio timer
+    var divActive = $('div.evident'); //dichiaro la var contenente il div visibile.
+    var divNext = divActive.next('div'); //dichiaro la var contenente il div successivo.
+    if (divNext.length == 0) { //controllo che ci sia un div e nel caso non c'è, riprende il div iniziale
+     divNext = $('div.first'); //se non c'è un div successivo, si prende il primo
+    }
+    (divActive).removeClass('evident'); //rimuovo la classe evident al div
+    (divNext).addClass('evident'); //aggiungo la classe evident al div
+}, 3500);
   $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
     location.reload(); //ricarico la pagina
     //$('.searchReaults-container').empty(); //svuoto il contenitore
@@ -24,7 +57,7 @@ $(document).ready(function(){
   });
   $('.choise').change(function(){ //verifico quando viene cambiata l'opzione
     var typeSelect = $('.choise').val() //creo una var che mi prende il value nell'option dentro il select
-    if (typeSelect == '') { // se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Ordina per...' (che non ha val)
+    if (typeSelect == '') { // se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Ordina per: Tutti i risultati' (che non ha val)
       $('.searchReaults').fadeIn(); //mostra tutto
     } else { //altrimenti se viene scelto 'Film' oppure 'SerieTV'
       $('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
@@ -43,7 +76,7 @@ $(document).ready(function(){
 //funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
 function trovaFilm() {
   var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
-  if (typeSelect == '') { //se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Lingua di ricerca (default ITA)' (che non ha val)
+  if (typeSelect == '') { //se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Lingua di ricerca: (default ITA)' (che non ha val)
     var language = 'it'; //la lingua è di default in italiano
   }
   if (typeSelect == 'eng') { //se l'opzione scelta è uguale a 'eng'
@@ -75,9 +108,6 @@ function trovaFilm() {
       success : function(data) {
         console.log('film:');
         console.log(data); //tengo il log per verificare gli elementi stampati
-        // if (data.total_pages > 0) {
-        //   creaTemplate(filmResults); //applico la mia funzione creata
-        // }
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
@@ -178,8 +208,9 @@ function creaCast(data) {
     } else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
       var apiMovCredits = '/tv/'; //API per una serietv
     }
-    var filmId = filmResults[i].id; //variabile che mi prende l'id del film
+    var filmId = filmResults[i].id; //variabile che mi prende l'id del film/serie
     var urlMDb = 'https://api.themoviedb.org/3';
+  }
     $.ajax({
       url : urlMDb + apiMovCredits + filmId + '/credits?api_key=' + API_KEY,
       method : 'get',
@@ -193,8 +224,9 @@ function creaCast(data) {
             actors.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto per 5 volte poichè mi servono solo i primi 5 (oppure potevo usare .slice(0,5) sulla var actors)
           }
           console.log(actors);
-          $('.searchReaults').find('.cast').append(actors); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
         }
+        $('.searchReaults').find('.cast').append(actors); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
+
           // if (actors == 0) { //se l'array data.cast contiene risultati
           //   //$('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
           //     //$(this).find('.cast').text(fiveActors); //vado a cercare il cast nel div e ci metto come testo l'array contenente solo i 5 attori
@@ -210,7 +242,6 @@ function creaCast(data) {
         alert('cast error');
       }
     });
-  }
 } //FINE funzione creaCast
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {

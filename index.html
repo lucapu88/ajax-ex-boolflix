@@ -15,24 +15,34 @@
       <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
         <select class="choise_language" name="">
-          <option value="">Lingua di ricerca (default ITA)</option>
-          <option value="eng">English</option>
-          <option value="spa">Español</option>
-          <option value="ger">Deutsch</option>
-          <option value="fra">Français</option>
+          <option value="">Lingua di ricerca: (default ITA)</option>
+          <option value="eng">Search language: English</option>
+          <option value="spa">Idioma de búsqueda: Español</option>
+          <option value="ger">Suchsprache: Deutsch</option>
+          <option value="fra">Langue de recherche: Français</option>
         </select>
         <select class="choise" name="">
-          <option value="">Ordina per...</option>
-          <option value="serietv">SerieTV</option>
-          <option value="film">Film</option>
+          <option value="">Ordina per: Tutti i risultati</option>
+          <option value="serietv">Ordina per: SerieTV</option>
+          <option value="film">Ordina per: Film</option>
         </select>
         <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un Film o di una SerieTV che vuoi cercare">
         <button type="button" name="button"><strong> Cerca </strong></button>
       </div>
     </header>
     <div class="searchReaults-container">
+      <div id="slideshow">
+       <div class="evident first" id="film1" >
+       </div>
+       <div id="film2">
+       </div>
+       <div id="film3">
+       </div>
+       <div id="film4">
+       </div>
+      </div>
     </div>
-    <div class="pages">
+    <div class="pages"> <!-- per il momento ci sono numeri statici, bisognerà generarli con JS e impostare il cambio pagina -->
       <div class="number">1</div>
       <div class="number">2</div>
       <div class="number">3</div>
@@ -40,7 +50,7 @@
     </div>
     <script id="myTemplate" type="text/x-handlebars-template">
       <!-- dovrebbe essere searchResults ma siccome ho notato l'errore quando ho scritto già parecchio codice JS meglio non correggere per evitare casini -->
-      <div class="searchReaults" data-type="{{tipologia}}" dataId="{{id}}">
+      <div class="searchReaults" data-type="{{tipologia}}" data-id="{{id}}">
         <div class="image active">
           <img src="{{copertina}}"alt="locandina {{titolo_originale}}">
         </div>

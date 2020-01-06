@@ -53,12 +53,26 @@ header {
 }
 /* FINE HEADER */
 .searchReaults-container {
-  padding-top: 150px;
+  padding-top: 80px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 20px;
   color: white;
+}
+#slideshow {
+  display: flex;
+  justify-content: center;
+}
+#slideshow div {
+  justify-content: center;
+  display: none;
+}
+#slideshow div.evident {
+  display: flex;
+}
+#slideshow > div > img {
+  padding: 0px 30px;
 }
 .searchReaults {
   color: white;
