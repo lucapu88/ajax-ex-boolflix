@@ -12,7 +12,6 @@ $(document).ready(function(){
           film3.push(imgFilm); //vado ad inserire nell'array la locandina
         }
       }
-      console.log(film3);
       $('#slideshow > #film1').append(film3.slice(0,3)); //appendo nel primo div le prime 3 locandine dei film
       $('#slideshow > #film3').append(film3.slice(3,6)); //appendo nel terzo div le successive 3 locandine dei film
       $('#slideshow > #film5').append(film3.slice(6,9)); //appendo nel quinto div le altre successive 3 locandine dei film
@@ -34,7 +33,6 @@ $(document).ready(function(){
           serie3.push(imgSerie); //vado ad inserire nell'array la locandina
         }
       }
-      console.log(film3);
       $('#slideshow > #film2').append(serie3.slice(0,3)); //appendo nel secondo div le prime 3 locandine delle serie
       $('#slideshow > #film4').append(serie3.slice(3,6)); //appendo nel quarto div le successive 3 locandine delle serie
       $('#slideshow > #film6').append(serie3.slice(6,9)); //appendo nel sesto div le altre successive 3 locandine delle serie
@@ -58,6 +56,7 @@ $(document).ready(function(){
     //$('.searchReaults-container').empty(); //svuoto il contenitore
   });
   $('button').click(function(){ // al click sul pulsante cerca
+    $("header").css("background-color","black"); //cambio il colore dell'header
     changeColor('black'); //applico la mia funzione creata
     trovaFilm(); //applico la mia funzione creata
     var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
@@ -65,6 +64,7 @@ $(document).ready(function(){
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
+      $("header").css("background-color","black"); //cambio il colore dell'header
       changeColor('black'); //applico la mia funzione creata
       trovaFilm(); //applico la mia funzione creata
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
@@ -98,6 +98,7 @@ $(document).ready(function(){
 //funzione che mi cambia il colore del body
 function changeColor(color) {
   document.body.style.background = color;
+  //document.header.style.background = color;
 }
 //funzione che va a prendermi un Film/SerieTV da un API tramite ciò che scrivo all'interno dell'input e mi crea una select per sceglere la lingua di ricerca
 function trovaFilm() {
@@ -268,6 +269,7 @@ function creaCast(data) {
         alert('cast error');
       }
     });
+
 } //FINE funzione creaCast.
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {

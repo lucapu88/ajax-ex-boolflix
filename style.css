@@ -5,7 +5,7 @@
 }
 body {
   background: rgb(93,0,0);
-  background: radial-gradient(circle, rgba(93,0,0,1) 0%, rgba(0,0,0,1) 65%, rgba(56,56,56,1) 100%);
+  background: radial-gradient(circle, rgba(93,0,0,1) 0%, rgba(0,0,0,1) 49%, rgba(56,56,56,1) 110%);
   font-family: 'Poppins', sans-serif;
 }
 /* INIZIO HEADER */
@@ -15,7 +15,7 @@ header {
   top: 0;
   width: 100%;
   padding: 10px;
-  background: black;
+  background: transparent;
   justify-content: space-between;
 }
 .home {
@@ -77,11 +77,8 @@ header {
 #slideshow div.evident {
   display: flex;
 }
-#slideshow > div > img:first-child {
-  padding-right: 50px;
-}
-#slideshow > div > img:last-child {
-  padding-left: 50px;
+#slideshow > div > img {
+  padding: 0px 50px;
 }
 /* carosello fine */
 .searchReaults {
