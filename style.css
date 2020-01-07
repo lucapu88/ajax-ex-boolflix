@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 body {
-  background-color: black;
+  background: rgb(93,0,0);
+  background: radial-gradient(circle, rgba(93,0,0,1) 0%, rgba(0,0,0,1) 65%, rgba(56,56,56,1) 100%);
   font-family: 'Poppins', sans-serif;
 }
 /* INIZIO HEADER */
@@ -14,7 +15,7 @@ header {
   top: 0;
   width: 100%;
   padding: 10px;
-  background-color: black;
+  background: black;
   justify-content: space-between;
 }
 .home {
@@ -68,7 +69,6 @@ header {
 #slideshow {
   display: flex;
   justify-content: center;
-    box-shadow: 0px 9px 47px 7px  rgba(201,201,201,1);
 }
 #slideshow div {
   justify-content: center;

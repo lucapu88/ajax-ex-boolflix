@@ -52,18 +52,20 @@ $(document).ready(function(){
     }
     (divActive).removeClass('evident'); //rimuovo la classe evident al div
     (divNext).addClass('evident'); //aggiungo la classe evident al div
-  }, 3500);
+  }, 3500); //fine carosello.
   $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
     location.reload(); //ricarico la pagina
     //$('.searchReaults-container').empty(); //svuoto il contenitore
   });
   $('button').click(function(){ // al click sul pulsante cerca
+    changeColor('black'); //applico la mia funzione creata
     trovaFilm(); //applico la mia funzione creata
     var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
+      changeColor('black'); //applico la mia funzione creata
       trovaFilm(); //applico la mia funzione creata
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
@@ -93,8 +95,11 @@ $(document).ready(function(){
   });
 });
 //-------------------------------------FUNZIONI----------------------------------------------
-
-//funzione che va a prendermi un Film/SerieTV da un API tramite ciò che scrivo all'interno dell'input e mi crea una select per sceglere la lingua
+//funzione che mi cambia il colore del body
+function changeColor(color) {
+  document.body.style.background = color;
+}
+//funzione che va a prendermi un Film/SerieTV da un API tramite ciò che scrivo all'interno dell'input e mi crea una select per sceglere la lingua di ricerca
 function trovaFilm() {
   var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
   if (typeSelect == '') { //se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Lingua di ricerca: (default ITA)' (che non ha val)
@@ -172,7 +177,7 @@ function trovaFilm() {
       }
     });
   }
-} //FINE funzione trovaFilm
+} //FINE funzione trovaFilm.
 //funzione che mi prende gli oggetti da un array e mi stampa il template in html
 function creaTemplate(filmResults){
   var template_html = $('#myTemplate').html();//recupero il codice html del template
@@ -219,7 +224,7 @@ function creaTemplate(filmResults){
       $('.choise, .number').addClass('visible'); //rendo visibile le pagine, e la select per scegliere le opzioni
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
-} //FINE funzione creaTemplate
+} //FINE funzione creaTemplate.
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
 function creaCast(data) {
   var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
@@ -263,7 +268,7 @@ function creaCast(data) {
         alert('cast error');
       }
     });
-} //FINE funzione creaCast
+} //FINE funzione creaCast.
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
   if (flag == 'en') { //se ciò che andiamo a richiamare nella funzione corrisponde a 'en' allora mi mette al posto di en un'immagine (stessa cosa per tutti gli altri qui sotto)
@@ -288,4 +293,4 @@ function creaBandiere(flag) {
     return('img/japan.png');
   }
   return(flag); //infine se ciò che andiamo a richiamare nella funzione non corrisponde e nessuno di questi, mi ritorna la dicitura che aveva di default
-}  //FINE funzione creaBandiere
+}  //FINE funzione creaBandiere.
