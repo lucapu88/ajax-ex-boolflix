@@ -56,16 +56,12 @@ $(document).ready(function(){
     //$('.searchReaults-container').empty(); //svuoto il contenitore
   });
   $('button').click(function(){ // al click sul pulsante cerca
-    $("header").css("background-color","black"); //cambio il colore dell'header
-    changeColor('black'); //applico la mia funzione creata
     trovaFilm(); //applico la mia funzione creata
     var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
   });
   $('.searchMovie').keypress(function(event) { //quando si è in posizione dell'input e viene premuto INVIO
     var testoRicerca = $('.searchMovie').val(); //recupero ciò che viene scritto nell'input
     if (event.which == 13 && testoRicerca != 0) { // se viene premuto INVIO (che corrisponde al numero 13 della mappatura dei tasti) e se nell'input c'è scritto qualcosa
-      $("header").css("background-color","black"); //cambio il colore dell'header
-      changeColor('black'); //applico la mia funzione creata
       trovaFilm(); //applico la mia funzione creata
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
@@ -121,6 +117,8 @@ function trovaFilm() {
   var filmCercato = $('.searchMovie').val(); // creo una variabile che mi prende il val della ricerca
   //qui sotto c'è la chiamata ajax nel caso in cui si prende un FILM
   if (filmCercato.length != 0) { //se ho scritto qualcosa nella ricerca interpello l'ajax
+    $("header").css("background-color","black"); //cambio il colore dell'header
+    changeColor('black'); //applico la mia funzione creata
     $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
     var urlMDb = 'https://api.themoviedb.org/3';
     var apiMovie = '/search/movie'; //API per la ricerca di un film
