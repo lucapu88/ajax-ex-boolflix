@@ -20,6 +20,10 @@ header {
 .home {
   color: red;
 }
+.home2 {
+  color: red;
+  display: none;
+}
 .choise, .choise_language, option {
   display: flex;
   justify-content: flex-end;
@@ -32,7 +36,7 @@ header {
 .searchBar {
   margin: 0 10px 0 10px;
   display: flex;
-  width: 80%;
+  width: 70%;
   justify-content: flex-end;
 }
 .searchMovie {
@@ -64,6 +68,7 @@ header {
 #slideshow {
   display: flex;
   justify-content: center;
+    box-shadow: 0px 9px 47px 7px  rgba(201,201,201,1);
 }
 #slideshow div {
   justify-content: center;
@@ -71,9 +76,6 @@ header {
 }
 #slideshow div.evident {
   display: flex;
-}
-#slideshow > div > img {
-  box-shadow: 0px 9px 47px 7px  rgba(255,255,255,1);
 }
 #slideshow > div > img:first-child {
   padding-right: 50px;
@@ -108,6 +110,7 @@ header {
   height: 30px;
   width: 30px;
 }
+/* parte del template inizio */
 .image img {
   max-height: 100%;
 }
@@ -136,4 +139,24 @@ header {
 }
 .fa-star {
   color: #EEC83D;
+}
+/* parte del template fine */
+
+/* quando è sotto i 1190px scompare la prima immagine del carosello */
+@media screen and (max-width:1190px) {
+  #slideshow > div > img:first-child {
+    display: none;
+  }
+}
+/* quando è sotto i 745px scompare l'ultima immagine del carosello e cambia la scritta BOOLFLIX' */
+@media screen and (max-width:745px) {
+  #slideshow > div > img:last-child {
+    display: none;
+  }
+  .home {
+    display: none;
+  }
+  .home2 {
+    display: block;
+  }
 }

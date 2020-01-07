@@ -12,6 +12,7 @@
   </head>
   <body>
     <header>
+      <h1 class="home2">B</h1> <!--compare sotto i 745px. (mentre home scompare)-->
       <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
         <select class="choise_language" name="">
@@ -31,7 +32,7 @@
       </div>
     </header>
     <div class="searchReaults-container">
-      <div id="slideshow"> <!--carosello contenente img generate dal javascript-->
+      <div id="slideshow"> <!--carosello automatico contenente le img delle locandine generate dal javascript-->
        <div class="evident first" id="film1" >
        </div>
        <div id="film2">
@@ -52,6 +53,7 @@
       <div class="number">3</div>
       <div class="number">4</div>
     </div>
+    <!-- qui sotto c'è la card del film/serietv con tutti i dettagliche verrà spampata una volta iniziata la ricerca -->
     <script id="myTemplate" type="text/x-handlebars-template">
       <!-- dovrebbe essere searchResults ma siccome ho notato l'errore quando ho scritto già parecchio codice JS meglio non correggere per evitare casini -->
       <div class="searchReaults" data-type="{{tipologia}}" data-id="{{id}}">

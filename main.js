@@ -18,7 +18,7 @@ $(document).ready(function(){
       $('#slideshow > #film5').append(film3.slice(6,9)); //appendo nel quinto div le altre successive 3 locandine dei film
     },
     error : function() {
-      alert('cast error');
+      alert('popular Film home error');
     }
   });
   //chiamata ajax per creare una home page con le serie tv del momento.
@@ -40,7 +40,7 @@ $(document).ready(function(){
       $('#slideshow > #film6').append(serie3.slice(6,9)); //appendo nel sesto div le altre successive 3 locandine delle serie
     },
     error : function() {
-      alert('cast error');
+      alert('popular SerieTV home error');
     }
   });
   //creo un carosello automatico che mostrerà (a gruppi di 3 immagini) ogni 3,5 secondi le locandine dei film e delle serie del momento
@@ -52,7 +52,7 @@ $(document).ready(function(){
     }
     (divActive).removeClass('evident'); //rimuovo la classe evident al div
     (divNext).addClass('evident'); //aggiungo la classe evident al div
-}, 3500);
+  }, 3500);
   $('.home').click(function(){ //se clicco sulla scritta BOOLFLIX
     location.reload(); //ricarico la pagina
     //$('.searchReaults-container').empty(); //svuoto il contenitore
@@ -94,7 +94,7 @@ $(document).ready(function(){
 });
 //-------------------------------------FUNZIONI----------------------------------------------
 
-//funzione che va a prendermi un Film o una SerieTV da un API tramite ciò che scrivo all'interno dell'input
+//funzione che va a prendermi un Film/SerieTV da un API tramite ciò che scrivo all'interno dell'input e mi crea una select per sceglere la lingua
 function trovaFilm() {
   var typeSelect = $('.choise_language').val() //creo una var che mi prende il value nell'option dentro il select
   if (typeSelect == '') { //se l'opzione scelta è uguale ad una stringa vuota, ovvero è impostato su 'Lingua di ricerca: (default ITA)' (che non ha val)
@@ -219,7 +219,7 @@ function creaTemplate(filmResults){
       $('.choise, .number').addClass('visible'); //rendo visibile le pagine, e la select per scegliere le opzioni
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
   }
-}  //FINE funzione creaTemplate
+} //FINE funzione creaTemplate
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
 function creaCast(data) {
   var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
