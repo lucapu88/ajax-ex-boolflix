@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 body {
-  background: rgb(93,0,0);
-  background: radial-gradient(circle, rgba(93,0,0,1) 0%, rgba(0,0,0,1) 49%, rgba(56,56,56,1) 110%);
+  background: rgb(60,0,0);
+  background: radial-gradient(circle, rgba(60,0,0,1) 0%, rgba(0,0,0,1) 83%, rgba(98,98,98,1) 100%);
   font-family: 'Poppins', sans-serif;
 }
 /* INIZIO HEADER */

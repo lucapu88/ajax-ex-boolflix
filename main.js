@@ -136,9 +136,8 @@ function trovaFilm() {
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
-          creaCast(data); //applico la mia funzione per stampare il cast
         } else { //se non ci sono risultati
-          $('.searchReaults-container').append('Nessun risultato trovato per Film'); //appendo un messaggio
+          $('.searchReaults-container').append(' Nessun risultato trovato per Film. '); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
       },
@@ -165,9 +164,8 @@ function trovaFilm() {
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
-          creaCast(data); //applico la mia funzione per stampare il cast
         } else { //se non ci sono risultati
-          $('.searchReaults-container').append('Nessun risultato trovato per SerieTV'); //appendo un messaggio
+          $('.searchReaults-container').append(' Nessun risultato trovato per SerieTV. '); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
       },
@@ -222,20 +220,17 @@ function creaTemplate(filmResults){
       $('.searchReaults-container').append(risultatoRicerca); // infine vado ad appendere nel container il mio template che si ripeterà fino alla lunghezza dell'array results contenuto nell'API
       $('.choise, .number').addClass('visible'); //rendo visibile le pagine, e la select per scegliere le opzioni
       //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
+      creaCast(filmResults[i].id, type); //applico la mia funzione per stampare il cast
   }
 } //FINE funzione creaTemplate.
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
-function creaCast(data) {
-  var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
-  for (var i = 0; i < filmResults.length; i++) { //ciclo tutta la lunghezza dell'array contenente i film
-    if (filmResults[i].hasOwnProperty('title')) { //se nell'array è definita la proprietà .title (e quindi è un Film)
+function creaCast(filmId, type) {
+    if (type == 'Film') { //se nell'array è definita la proprietà .title (e quindi è un Film)
       var apiMovCredits = '/movie/'; //API per un film
     } else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
       var apiMovCredits = '/tv/'; //API per una serietv
     }
-    var filmId = filmResults[i].id; //variabile che mi prende l'id del film/serie
     var urlMDb = 'https://api.themoviedb.org/3';
-  }
     $.ajax({
       url : urlMDb + apiMovCredits + filmId + '/credits?api_key=' + API_KEY,
       method : 'get',
@@ -243,31 +238,19 @@ function creaCast(data) {
         var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
         var actors = []; //array che andrà a contenere tutti gli attori del film/serie
         if (actorResults.length == 0) { //se non ci sono risultati nel cast
-            $('.searchReaults').find('.cast').append(' Cast non disponibile');//appendo un testo
+            $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(' Cast non disponibile');//appendo un testo
         } else { //altrimenti se ci sono risultati nel cast
           for (var j = 0; j < actorResults.length && j < 5; j++) { //la parte del cast sarà un array contenente tutti i nomi degli attori e quindi lo ciclo
             actors.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto per 5 volte poichè mi servono solo i primi 5 (oppure potevo usare .slice(0,5) sulla var actors)
           }
           console.log(actors);
         }
-        $('.searchReaults').find('.cast').append(actors); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
-
-          // if (actors == 0) { //se l'array data.cast contiene risultati
-          //   //$('.searchReaults').each(function(){ //vado a verificare per ogni singolo div
-          //     //$(this).find('.cast').text(fiveActors); //vado a cercare il cast nel div e ci metto come testo l'array contenente solo i 5 attori
-          //     //se faccio append mi va ad inserire tutti gli array insieme in ogni div
-          //     $('.searchReaults').find('.cast').append(' Cast non disponibile');
-          //
-          //   //});
-          // } else { //altrimenti se è vuoto
-          //   $('.searchReaults').find('.cast').append(actors);
-          // }
+        $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(actors.join(', ')); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
       },
       error : function() {
         alert('cast error');
       }
     });
-
 } //FINE funzione creaCast.
 //funzione che mi stampa in html un'immagine al posto del valore di un oggetto
 function creaBandiere(flag) {
