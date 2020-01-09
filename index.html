@@ -28,7 +28,7 @@
           <option value="film">Ordina per: Film</option>
         </select>
         <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un Film o di una SerieTV che vuoi cercare">
-        <button type="button" name="button"><strong> Cerca </strong></button>
+        <button type="button" name="button"><strong><i class="fas fa-search"></i></strong></button>
       </div>
     </header>
     <div class="searchReaults-container">
@@ -47,11 +47,8 @@
        </div>
       </div>
     </div>
-    <div class="pages"> <!-- per il momento ci sono numeri statici, bisognerà generarli con JS e impostare il cambio pagina -->
-      <div class="number">1</div>
-      <div class="number">2</div>
-      <div class="number">3</div>
-      <div class="number">4</div>
+    <div class="pages"> <!-- serve nel caso attivo il metodo per la paginazione, che per il momento nel main.js l'ho commentato -->
+
     </div>
     <!-- qui sotto c'è la card del film/serietv con tutti i dettagliche verrà spampata una volta iniziata la ricerca -->
     <script id="myTemplate" type="text/x-handlebars-template">

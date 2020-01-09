@@ -47,13 +47,13 @@ header {
   border-radius: 5px;
 }
 .searchBar button {
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 0px 20px;
+  border-radius: 10px;
   background-color: red;
   color: white;
   border: none;
 }
-.home, button:hover {
+.home, .number, button:hover {
   cursor: pointer;
 }
 /* FINE HEADER */

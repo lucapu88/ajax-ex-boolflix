@@ -66,6 +66,11 @@ $(document).ready(function(){
       var typeSelect = $('.choise').val(''); //reimposto la select con il valore predefinito
     }
   });
+  // QUESTO PEZZO E' COMMENTATO POICHE' VIENE FATTO SOLO PER I FILM E GESTIRLO ANCHE PER LE SERIE CON 2 CHIAMATE AJAX SAREBBE TROPPO COMPLICATO (se si vuole attivare, ricordarsi di scrivere 1 tra parentesi nel trovafilm() all'interno del button click)
+  // $(document).on('click', '.number', function(){
+  //   var pages = $(this).text();
+  //   trovaFilm(pages);
+  // });
   $(document).on('mouseenter', '.searchReaults', function(){ //quando sono con il mouse sul div che contiene la card del film/serie
     $(this).children('.image').removeClass('active'); //nascondo l'immagine
     $(this).children('.info').addClass('active'); //mostro i dettagli
@@ -125,6 +130,7 @@ function trovaFilm() {
     $.ajax({
       url : urlMDb + apiMovie,
       data : {
+        //'page' : page, //Commentato poichè mi servirebbe solo per la paginazione (nel caso lo si vuol attivare, scrivere page tra parentesi in trovafilm qui su)
         'api_key' : API_KEY,
         'query' : filmCercato,
         'language' : language
@@ -133,6 +139,11 @@ function trovaFilm() {
       success : function(data) {
         console.log('film:');
         console.log(data); //tengo il log per verificare gli elementi stampati
+        // QUESTO PEZZO E' COMMENTATO POICHE' VIENE FATTO SOLO PER I FILM E GESTIRLO ANCHE PER LE SERIE CON 2 CHIAMATE AJAX SAREBBE TROPPO COMPLICATO
+        // $('.pages').empty(); //svuoto il contenitore delle pagine ogni volta che ciclo
+        // for (var i = 1; i <= data.total_pages; i++) { //creo un ciclo for per andare a stampare il numero corrispondente alla pagina
+        //   $('.pages').append('<div class="number">' + i + '</div>');
+        // }
         if (data.total_results > 0) { //se ci sono risultati nella ricerca
           var filmResults = data.results; //creo una variabile che mi prende l'array dei risultati dentro l'API
           creaTemplate(filmResults); //applico la mia funzione creata per stampare i film/serietv
@@ -200,7 +211,7 @@ function creaTemplate(filmResults){
       var copertina = 'https://image.tmdb.org/t/p/w342' + filmResults[i].poster_path; //creo una var che mi concatena l'url base dell'immagine e il contenuto dell'oggetto
     }
     if (filmResults[i].overview == "") { //se non c'è scrita nessuna descrizione del film/serietv
-      var trama = ' Momentaneamente non disponibile'; //la var trama indica che non è disponibile
+      var trama = ' Momentaneamente non disponibile/Temporarily unavailable'; //la var trama indica che non è disponibile
     } else { //altrimenti se c'è scritto qualcosa
       var trama = filmResults[i].overview; //nella var ci va ciò che c'è scritto all'interno
     }
@@ -225,9 +236,9 @@ function creaTemplate(filmResults){
 } //FINE funzione creaTemplate.
 //funzione che tramite una chiamata ajax mi va a recuperare i primi 5 attori del cast
 function creaCast(filmId, type) {
-    if (type == 'Film') { //se nell'array è definita la proprietà .title (e quindi è un Film)
+    if (type == 'Film') { //se la proprietà type è uguale a film (e quindi è un Film)
       var apiMovCredits = '/movie/'; //API per un film
-    } else { //se nell'array NON è definita la proprietà .title (e quindi se non è un film, è una SerieTV)
+    } else { //altrimenti non è un film, ma è una SerieTV)
       var apiMovCredits = '/tv/'; //API per una serietv
     }
     var urlMDb = 'https://api.themoviedb.org/3';
@@ -238,14 +249,14 @@ function creaCast(filmId, type) {
         var actorResults = data.cast; //variabile che definisce l'array contenente i nomi degli attori
         var actors = []; //array che andrà a contenere tutti gli attori del film/serie
         if (actorResults.length == 0) { //se non ci sono risultati nel cast
-            $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(' Cast non disponibile');//appendo un testo
+            $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(' Cast non disponibile/not available');//appendo un testo
         } else { //altrimenti se ci sono risultati nel cast
           for (var j = 0; j < actorResults.length && j < 5; j++) { //la parte del cast sarà un array contenente tutti i nomi degli attori e quindi lo ciclo
             actors.push(actorResults[j].name); //dal ciclo prendo gli attori e vado ad inserirli nell'array vuoto per 5 volte poichè mi servono solo i primi 5 (oppure potevo usare .slice(0,5) sulla var actors)
           }
           console.log(actors);
         }
-        $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(actors.join(', ')); //in fine vado a cercare la classe cast nel div .searchReaults e vado ad appendere l'array contenente i 5 attori
+        $('.searchReaults[data-id="' + filmId + '"]').find('.cast').append(actors.join(', ')); //in fine vado a cercare la classe cast (nel div .searchReaults con l'id del film corrispondente) e vado ad appendere l'array contenente i 5 attori
       },
       error : function() {
         alert('cast error');
