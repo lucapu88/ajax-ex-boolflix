@@ -54,7 +54,7 @@ option {
   border-radius: 5px;
 }
 .searchBar button {
-  padding: 0px 20px;
+  padding: 0px 13px;
   border-radius: 10px;
   background-color: red;
   color: white;
@@ -176,5 +176,15 @@ button:hover {
   }
   .home2 {
     display: block;
+    width: 40px;
+    height: 40px;
+    animation: rotate 2s;
+    animation-iteration-count: 3;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }

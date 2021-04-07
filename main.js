@@ -131,7 +131,12 @@ $(document).ready(function () {
       });
     }
   });
+
+  $('#homepage').click(function () {
+    location.reload();
+  });
 });
+
 //-------------------------------------FUNZIONI----------------------------------------------
 //funzione che mi cambia il colore del body
 function changeColor(color) {
