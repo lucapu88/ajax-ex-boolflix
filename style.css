@@ -4,8 +4,13 @@
   box-sizing: border-box;
 }
 body {
-  background: rgb(60,0,0);
-  background: radial-gradient(circle, rgba(60,0,0,1) 0%, rgba(0,0,0,1) 83%, rgba(98,98,98,1) 100%);
+  background: rgb(60, 0, 0);
+  background: radial-gradient(
+    circle,
+    rgba(60, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 83%,
+    rgba(98, 98, 98, 1) 100%
+  );
   font-family: 'Poppins', sans-serif;
 }
 /* INIZIO HEADER */
@@ -25,7 +30,9 @@ header {
   color: red;
   display: none;
 }
-.choise, .choise_language, option {
+.choise,
+.choise_language,
+option {
   display: flex;
   justify-content: flex-end;
   margin-right: 10px;
@@ -37,11 +44,11 @@ header {
 .searchBar {
   margin: 0 10px 0 10px;
   display: flex;
-  width: 70%;
+  width: 100%;
   justify-content: flex-end;
 }
 .searchMovie {
-  margin:4px 10px 4px 5px;
+  margin: 4px 10px 4px 5px;
   width: 40%;
   padding: 5px;
   border-radius: 5px;
@@ -53,7 +60,9 @@ header {
   color: white;
   border: none;
 }
-.home, .number, button:hover {
+.home,
+.number,
+button:hover {
   cursor: pointer;
 }
 /* FINE HEADER */
@@ -85,12 +94,16 @@ header {
   color: white;
   padding: 10px;
   margin-bottom: 100px;
-  border: 1px solid white;
   width: 370px;
   height: 545px;
   display: flex;
   text-align: center;
   flex-direction: column;
+}
+@media (max-width: 650px) {
+  .searchReaults {
+    height: 450px;
+  }
 }
 .pages {
   display: flex;
@@ -114,11 +127,19 @@ header {
 .image {
   max-height: 100%;
 }
+@media (max-width: 650px) {
+  .image {
+    max-height: 90%;
+  }
+}
 .info:last-child {
   margin-top: 5px;
   overflow-y: auto;
 }
-.info, .image, .choise, .number {
+.info,
+.image,
+.choise,
+.number {
   display: none;
 }
 .visible {
@@ -135,18 +156,18 @@ header {
   width: 25px;
 }
 .fa-star {
-  color: #EEC83D;
+  color: #eec83d;
 }
 /* parte del template fine */
 
 /* quando è sotto i 1190px scompare la prima immagine del carosello */
-@media screen and (max-width:1190px) {
+@media screen and (max-width: 1190px) {
   #slideshow > div > img:first-child {
     display: none;
   }
 }
 /* quando è sotto i 745px scompare l'ultima immagine del carosello e cambia la scritta BOOLFLIX' */
-@media screen and (max-width:745px) {
+@media screen and (max-width: 745px) {
   #slideshow > div > img:last-child {
     display: none;
   }
