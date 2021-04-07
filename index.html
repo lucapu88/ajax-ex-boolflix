@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <script src="script.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MYNetflix</title>
     <link rel="shortcut icon" href="img/favicon.png" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- MOMENTANEAMENTE NON ADATTO IN MOBILE VERSION -->
     <header>
-      <h1 class="home2">B</h1> <!--compare sotto i 745px. (mentre home scompare)-->
+      <h1 class="home2">B</h1>
+      <!--compare sotto i 745px. (mentre home scompare)-->
       <h1 class="home">BOOLFLIX</h1>
       <div class="searchBar">
         <select class="choise_language" name="">
@@ -28,59 +36,78 @@
           <option value="serietv">Ordina per: SerieTV</option>
           <option value="film">Ordina per: Film</option>
         </select>
-        <input type="text" class="searchMovie" placeholder=" Inserisci il titolo di un Film o di una SerieTV che vuoi cercare">
-        <button type="button" name="button"><strong><i class="fas fa-search"></i></strong></button>
+        <input
+          type="text"
+          class="searchMovie"
+          placeholder=" Inserisci il titolo di un Film o di una SerieTV che vuoi cercare"
+        />
+        <button type="button" name="button">
+          <strong><i class="fas fa-search"></i></strong>
+        </button>
       </div>
     </header>
     <div class="searchReaults-container">
-      <div id="slideshow"> <!--carosello automatico contenente le img delle locandine generate dal javascript-->
-       <div class="evident first" id="film1" >
-       </div>
-       <div id="film2">
-       </div>
-       <div id="film3">
-       </div>
-       <div id="film4">
-       </div>
-       <div id="film5">
-       </div>
-       <div id="film6">
-       </div>
+      <div id="slideshow">
+        <!--carosello automatico contenente le img delle locandine generate dal javascript-->
+        <div class="evident first" id="film1"></div>
+        <div id="film2"></div>
+        <div id="film3"></div>
+        <div id="film4"></div>
+        <div id="film5"></div>
+        <div id="film6"></div>
       </div>
     </div>
-    <div class="pages"> <!-- serve nel caso attivo il metodo per la paginazione, che per il momento nel main.js l'ho commentato -->
-
+    <div class="pages">
+      <!-- serve nel caso attivo il metodo per la paginazione, che per il momento nel main.js l'ho commentato -->
     </div>
     <!-- qui sotto c'è la card del film/serietv con tutti i dettagliche verrà spampata una volta iniziata la ricerca -->
     <script id="myTemplate" type="text/x-handlebars-template">
       <!-- dovrebbe essere searchResults ma siccome ho notato l'errore quando ho scritto già parecchio codice JS meglio non correggere per evitare casini -->
-      <div class="searchReaults" data-type="{{tipologia}}" data-id="{{id}}">
-        <div class="image active">
-          <img src="{{copertina}}"alt="locandina {{titolo_originale}}">
+      <div class='searchReaults' data-type='{{tipologia}}' data-id='{{id}}'>
+        <div class='image active'>
+          <img src='{{copertina}}' alt='locandina {{titolo_originale}}' />
         </div>
-        <div class="info">
-          <h2>{{{titolo}}}</h2>
+        <div class='info'>
+          <h2>
+            {{{titolo}}}
+          </h2>
         </div>
-        <div class="info">
-          <strong>Titolo originale:</strong>{{titolo_originale}}
+        <div class='info'>
+          <strong>
+            Titolo originale:
+          </strong>{{titolo_originale}}
         </div>
-        <div class="info">
-          <strong>Lingua:</strong><img class="language" src="{{{lingua}}}" alt="{{lingua}}">
+        <div class='info'>
+          <strong>
+            Lingua:
+          </strong>
+          <img class='language' src='{{{lingua}}}' alt='{{lingua}}' />
         </div>
-        <div class="info">
-          <strong>Tipologia:</strong>{{tipologia}}
+        <div class='info'>
+          <strong>
+            Tipologia:
+          </strong>{{tipologia}}
         </div>
-        <div class="info">
-          <strong>Data di uscita:</strong>{{date}}
+        <div class='info'>
+          <strong>
+            Data di uscita:
+          </strong>{{date}}
         </div>
-        <div class="info">
-          <strong>Voto:</strong>{{{voto}}}{{{voto_restante}}}
+        <div class='info'>
+          <strong>
+            Voto:
+          </strong>{{{voto}}}{{{voto_restante}}}
         </div>
-        <div class="info">
-          <strong>Cast:</strong><span class="cast"></span>
+        <div class='info'>
+          <strong>
+            Cast:
+          </strong>
+          <span class='cast'></span>
         </div>
-        <div class="info">
-          <strong>Trama:</strong>{{descrizione}}
+        <div class='info'>
+          <strong>
+            Trama:
+          </strong>{{descrizione}}
         </div>
       </div>
     </script>
