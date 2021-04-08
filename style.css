@@ -78,6 +78,7 @@ button:hover {
 #slideshow {
   display: flex;
   justify-content: center;
+  margin-top: 5%;
 }
 #slideshow div {
   justify-content: center;
@@ -168,8 +169,16 @@ button:hover {
 }
 /* quando è sotto i 745px scompare l'ultima immagine del carosello e cambia la scritta BOOLFLIX' */
 @media screen and (max-width: 745px) {
-  #slideshow > div > img:last-child {
-    display: none;
+  #slideshow > div > img {
+    width: 230px;
+    height: 290px;
+    padding: 3px;
+  }
+  #slideshow > div {
+    flex-direction: column;
+  }
+  #slideshow {
+    margin-top: -35px;
   }
   .home {
     display: none;
@@ -178,6 +187,8 @@ button:hover {
     display: block;
     width: 40px;
     height: 40px;
+    border: 2px solid;
+    border-radius: 50%;
     animation: rotate 2s;
     animation-iteration-count: 3;
   }

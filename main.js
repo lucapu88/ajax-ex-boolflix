@@ -27,6 +27,8 @@ $(document).ready(function () {
       $('#slideshow > #film1').append(film3.slice(0, 3)); //appendo nel primo div le prime 3 locandine dei film
       $('#slideshow > #film3').append(film3.slice(3, 6)); //appendo nel terzo div le successive 3 locandine dei film
       $('#slideshow > #film5').append(film3.slice(6, 9)); //appendo nel quinto div le altre successive 3 locandine dei film
+      $('#slideshow > #film7').append(film3.slice(9, 12)); //appendo nel quinto div le altre successive 3 locandine dei film
+      $('#slideshow > #film9').append(film3.slice(12, 15)); //appendo nel quinto div le altre successive 3 locandine dei film
     },
     error: function () {
       alert('popular Film home error');
@@ -60,6 +62,7 @@ $(document).ready(function () {
       $('#slideshow > #film2').append(serie3.slice(0, 3)); //appendo nel secondo div le prime 3 locandine delle serie
       $('#slideshow > #film4').append(serie3.slice(3, 6)); //appendo nel quarto div le successive 3 locandine delle serie
       $('#slideshow > #film6').append(serie3.slice(6, 9)); //appendo nel sesto div le altre successive 3 locandine delle serie
+      $('#slideshow > #film8').append(serie3.slice(9, 12)); //appendo nel sesto div le altre successive 3 locandine delle serie
     },
     error: function () {
       alert('popular SerieTV home error');
