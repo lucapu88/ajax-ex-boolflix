@@ -142,9 +142,8 @@ $(document).ready(function () {
 
 //-------------------------------------FUNZIONI----------------------------------------------
 //funzione che mi cambia il colore del body
-function changeColor(color) {
-  document.body.style.background = color;
-  //document.header.style.background = color;
+function changeBackground() {
+  document.body.style.backgroundImage = "url('img/sfondo.jpg')";
 }
 //funzione che va a prendermi un Film/SerieTV da un API tramite ciò che scrivo all'interno dell'input e mi crea una select per sceglere la lingua di ricerca
 function trovaFilm() {
@@ -173,8 +172,7 @@ function trovaFilm() {
   //qui sotto c'è la chiamata ajax nel caso in cui si prende un FILM
   if (filmCercato.length != 0) {
     //se ho scritto qualcosa nella ricerca interpello l'ajax
-    $('header').css('background-color', 'black'); //cambio il colore dell'header
-    changeColor('black'); //applico la mia funzione creata
+    changeBackground(); //applico la mia funzione creata
     $('.searchReaults-container').empty(); //svuoto il contenitore nel caso è stata già fatta una ricerca
     var urlMDb = 'https://api.themoviedb.org/3';
     var apiMovie = '/search/movie'; //API per la ricerca di un film
@@ -202,7 +200,7 @@ function trovaFilm() {
         } else {
           //se non ci sono risultati
           $('.searchReaults-container').append(
-            ' Nessun risultato trovato per Film. '
+            '<span>Nessun risultato trovato per Film.</span>'
           ); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }
@@ -235,7 +233,7 @@ function trovaFilm() {
         } else {
           //se non ci sono risultati
           $('.searchReaults-container').append(
-            ' Nessun risultato trovato per SerieTV. '
+            '<span> Nessun risultato trovato per SerieTV.</span>'
           ); //appendo un messaggio
           //$('.searchMovie').val(''); //resetto l'input con una stringa vuota (opzionale: io l'ho commentato perchè secondo me l'utente, nel caso sbaglia a digitare, deve vedere ciò che ha scritto per poi correggersi)
         }

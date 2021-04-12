@@ -4,12 +4,13 @@
   box-sizing: border-box;
 }
 body {
-  background: rgb(60, 0, 0);
-  background: radial-gradient(
-    circle,
-    rgba(60, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 83%,
-    rgba(98, 98, 98, 1) 100%
+  background: rgb(247, 212, 101);
+  background: linear-gradient(
+    90deg,
+    rgba(247, 212, 101, 1) 0%,
+    rgba(21, 70, 174, 1) 20%,
+    rgba(51, 89, 164, 1) 80%,
+    rgba(247, 212, 101, 1) 100%
   );
   font-family: 'Poppins', sans-serif;
 }
@@ -24,10 +25,13 @@ header {
   justify-content: space-between;
 }
 .home {
-  color: red;
+  color: #f7d465;
+  background-color: #1546ae;
+  border: 2px solid #f7d465;
+  padding: 0 10px;
 }
 .home2 {
-  color: red;
+  color: #1546ae;
   display: none;
 }
 .choise,
@@ -36,10 +40,10 @@ option {
   display: flex;
   justify-content: flex-end;
   margin-right: 10px;
-  background-color: black;
+  background-color: #1546ae;
   border: none;
   padding: 10px;
-  color: white;
+  color: #f7d465;
 }
 .searchBar {
   margin: 0 10px 0 10px;
@@ -56,8 +60,8 @@ option {
 .searchBar button {
   padding: 0px 13px;
   border-radius: 10px;
-  background-color: red;
-  color: white;
+  background-color: #f7d465;
+  color: #1546ae;
   border: none;
 }
 .home,
@@ -72,7 +76,15 @@ button:hover {
   justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 20px;
-  color: white;
+}
+.searchReaults-container > span {
+  color: #f7d465;
+  background-color: #1546ae;
+  font-weight: bold;
+  height: 35px;
+  padding: 5px;
+  border: 2px solid #f7d465;
+  margin-bottom: 10px;
 }
 /* carosello inizio */
 #slideshow {
@@ -101,10 +113,9 @@ button:hover {
   text-align: center;
   flex-direction: column;
 }
-@media (max-width: 650px) {
-  .searchReaults {
-    height: 450px;
-  }
+.searchReaults:hover {
+  color: #f7d465;
+  background-color: #1546ae;
 }
 .pages {
   display: flex;
@@ -128,11 +139,7 @@ button:hover {
 .image {
   max-height: 100%;
 }
-@media (max-width: 650px) {
-  .image {
-    max-height: 90%;
-  }
-}
+
 .info:last-child {
   margin-top: 5px;
   overflow-y: auto;
@@ -187,7 +194,7 @@ button:hover {
     display: block;
     width: 40px;
     height: 40px;
-    border: 2px solid;
+    border: 2px solid #f7d465;
     border-radius: 50%;
     animation: rotate 2s;
     animation-iteration-count: 3;
@@ -197,5 +204,32 @@ button:hover {
     100% {
       transform: rotate(360deg);
     }
+  }
+}
+
+@media (max-width: 650px) {
+  body {
+    background-position: top;
+  }
+  header {
+    background: #1546ae;
+  }
+  .searchReaults-container {
+    overflow: auto;
+    height: 100vh;
+  }
+  .searchReaults {
+    height: 450px;
+  }
+  .searchReaults:hover {
+    height: 490px;
+  }
+  .image {
+    max-height: 100%;
+    margin-bottom: 5%;
+  }
+  .image img {
+    max-height: 90%;
+    margin-bottom: 5%;
   }
 }
